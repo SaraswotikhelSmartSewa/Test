@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ne">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Saraswotikhel Smart Sewa</title>
+  <style>
+    :root { --gap: 2.5rem; --bark: #3b2a1a; --cream: #fdf6ec; }
+    body { font-family: sans-serif; background: var(--cream); color: var(--bark); margin: 0; }
+    
+    /* Desktop Logo & Symmetry */
+    .nav-logo { height: 85px; width: auto; }
+    .header-logo-img { height: 110px; width: auto; margin-bottom: 15px; }
+    .mwa-header { width: 220px; text-align: center; background: #25D366; color: white; padding: 15px; border-radius: 12px; text-decoration: none; display: inline-block; }
+    
+    /* Spacing */
+    .ticker-wrap { margin: var(--gap) 0; }
+    
+    /* Dynamic Buttons & Grid */
+    .links-grid { display: grid; gap: 10px; padding: 20px; }
+    
+    /* Mobile Rule: 3 in a row */
+    @media (max-width: 768px) {
+      .links-grid { grid-template-columns: repeat(3, 1fr); }
+      .lbtn { padding: 10px 5px; font-size: 0.75rem; text-align: center; border-radius: 8px; text-decoration: none; }
+      .lbtn span { display: block; font-size: 1.2rem; }
+    }
+
+    /* Desktop Rule: List */
+    @media (min-width: 769px) {
+      .links-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+    }
+
+    /* Multi-Price List */
+    .price-list { margin-top: 10px; border-top: 1px solid rgba(0,0,0,0.05); padding-top: 5px; }
+    .price-row { display: flex; justify-content: space-between; font-size: 0.9rem; padding: 3px 0; }
+    .price-row b { color: #2e7d45; }
+  </style>
+</head>
+<body>
+  <header style="text-align:center; padding: 40px 20px;">
+    <div id="headerLogoWrap"></div>
+    <h1 id="shopName"></h1>
+    <div id="hStats" style="display:flex; justify-content:center; gap:20px; margin: 20px 0;"></div>
+    <a id="waHeaderBtn" class="mwa-header">Order on WhatsApp</a>
+  </header>
+
+  <section id="links-section">
+    <div id="linksRoot" class="links-grid"></div>
+  </section>
+
+  <div class="ticker-wrap" id="tickerTrack"></div>
+
+  <section id="fresh">
+    <div id="categoriesRoot" style="padding: 20px;"></div>
+  </section>
+
+  <script>
+    async function init() {
+      const response = await fetch('site-config.json?v=' + Date.now());
+      const CFG = await response.json();
+
+      // Logo & Name
+      if(CFG.meta.logoUrl) {
+        document.getElementById('headerLogoWrap').innerHTML = `<img src="${CFG.meta.logoUrl}" class="header-logo-img">`;
+      }
+      document.getElementById('shopName').textContent = CFG.meta.shopName;
+
+      // Stats
+      document.getElementById('hStats').innerHTML = CFG.stats.map(s => `
+        <div><b>${s.number}</b><br><small>${s.label}</small></div>
+      `).join('');
+
+      // Quick Links
+      document.getElementById('linksRoot').innerHTML = CFG.links.map(l => `
+        <a href="${l.url}" class="lbtn" style="background:${l.bgColor}; color:${l.textColor}">
+          <span>${l.icon}</span> ${l.label}
+        </a>
+      `).join('');
+
+      // Multi-Price Products
+      let catHtml = '';
+      CFG.categories.forEach(cat => {
+        catHtml += `<h2>${cat.name}</h2><div style="display:grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap:15px;">`;
+        cat.items.forEach(item => {
+          const prices = item.options.map(o => `
+            <div class="price-row"><span>${o.unit}</span><b>Rs. ${o.price}</b></div>
+          `).join('');
+          catHtml += `
+            <div style="background:white; padding:10px; border-radius:12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+              <img src="${item.imageUrl}" style="width:100%; border-radius:8px;">
+              <h4>${item.name}</h4>
+              <div class="price-list">${prices}</div>
+            </div>`;
+        });
+        catHtml += `</div>`;
+      });
+      document.getElementById('categoriesRoot').innerHTML = catHtml;
+    }
+    init();
+  </script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+{
+  "meta": {
+    "shopName": "सरस्वतीखेल स्मार्ट सेवा - घरायेसी",
+    "shopNameHighlight": "घरायेसी",
+    "tagline": "सुरुवात एक अटुट सम्बन्धको",
+    "location": "सरस्वतीखेल, भक्तपुर",
+    "badgeText": "सरस्वतीखेल",
+    "whatsappNumber": "9709612863",
+    "whatsappMessage": "Namaste! I want to order...",
+    "phone": "+977 9709612863",
+    "logoUrl": "https://raw.githubusercontent.com/SaraswotikhelSmartSewa/gharayesi/refs/heads/main/IMG_20260411_223531.png"
+  },
+  "navTopics": [
+    { "label": "Fresh List", "url": "#fresh" },
+    { "label": "Why Us", "url": "#why" },
+    { "label": "Find Us", "url": "#footer" }
+  ],
+  "stats": [
+    { "number": "8 AM", "label": "Opens Daily" },
+    { "number": "8 PM", "label": "Last Order" },
+    { "number": "4.9★", "label": "Rating" }
+  ],
+  "links": [
+    { "icon": "📍", "label": "Find Us", "url": "https://maps.google.com", "bgColor": "#1e9fd4", "textColor": "#ffffff" },
+    { "icon": "💬", "label": "WhatsApp", "url": "https://wa.me/9709612863", "bgColor": "#25D366", "textColor": "#ffffff" },
+    { "icon": "📞", "label": "Call Us", "url": "tel:9709612863", "bgColor": "#e03535", "textColor": "#ffffff" }
+  ],
+  "ticker": [
+    { "text": "Fresh stock arrives every morning at 6 AM", "color": "c1" }
+  ],
+  "categories": [
+    {
+      "name": "Vegetables",
+      "items": [
+        {
+          "name": "आलु • Potato",
+          "imageUrl": "https://github.com/SaraswotikhelSmartSewa/Gharayesi/blob/main/IMG_20260411_130217.png?raw=true",
+          "options": [
+            { "unit": "किलो • kg", "price": "30" },
+            { "unit": "धार्नी • dharni", "price": "60" }
+          ]
+        }
+      ]
+    }
+  ]
+}
