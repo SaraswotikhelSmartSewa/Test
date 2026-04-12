@@ -6,14 +6,14 @@
     "location": "सरस्वतीखेल, भक्तपुर",
     "badgeText": "सरस्वतीखेल",
     "whatsappNumber": "9709612863",
-    "whatsappMessage": "Namaste! I want to order...",
+    "whatsappMessage": "नमस्ते! म अर्डर गर्न चाहन्छु...",
     "phone": "+977 9709612863",
     "logoUrl": "https://raw.githubusercontent.com/SaraswotikhelSmartSewa/gharayesi/refs/heads/main/IMG_20260411_223531.png"
   },
   "navTopics": [
-    { "label": "Fresh List", "url": "#fresh" },
-    { "label": "Why Us", "url": "#why" },
-    { "label": "Find Us", "url": "#footer" }
+    { "label": "ताजा सामग्री", "url": "#fresh" },
+    { "label": "हाम्रो बारे", "url": "#whyUs" },
+    { "label": "सम्पर्क", "url": "#footer" }
   ],
   "stats": [
     { "number": "8 AM", "label": "Opens Daily" },
@@ -21,12 +21,9 @@
     { "number": "4.9★", "label": "Rating" }
   ],
   "links": [
-    { "icon": "📍", "label": "Find Us", "url": "https://maps.google.com", "bgColor": "#1e9fd4", "textColor": "#ffffff" },
-    { "icon": "💬", "label": "WhatsApp", "url": "https://wa.me/9709612863", "bgColor": "#25D366", "textColor": "#ffffff" },
-    { "icon": "📞", "label": "Call Us", "url": "tel:9709612863", "bgColor": "#e03535", "textColor": "#ffffff" }
-  ],
-  "ticker": [
-    { "text": "Fresh stock arrives every morning at 6 AM", "color": "c1" }
+    { "icon": "📍", "label": "Find Us on Map", "url": "...", "bgColor": "#1e9fd4", "textColor": "#ffffff" },
+    { "icon": "💬", "label": "Order on WhatsApp", "url": "...", "bgColor": "#25D366", "textColor": "#ffffff" },
+    { "icon": "📞", "label": "Call Us", "url": "...", "bgColor": "#e03535", "textColor": "#ffffff" }
   ],
   "categories": [
     {
@@ -36,8 +33,8 @@
           "name": "आलु • Potato",
           "imageUrl": "https://github.com/SaraswotikhelSmartSewa/Gharayesi/blob/main/IMG_20260411_130217.png?raw=true",
           "options": [
-            { "unit": "किलो • kg", "price": "30" },
-            { "unit": "धार्नी • dharni", "price": "60" }
+            { "unit": "kg", "price": "30" },
+            { "unit": "dharni", "price": "60" }
           ]
         }
       ]
