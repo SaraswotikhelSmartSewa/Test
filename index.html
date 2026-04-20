@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Loading…</title>
 <meta name="description" content=""/>
+<link rel="manifest" href="manifest.json"/>
+<meta name="theme-color" content="#2e7d45"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <style>
@@ -207,6 +209,76 @@ header{background:var(--leaf);position:relative;overflow:hidden}
 .update-note{background:rgba(46,125,69,.07);border-left:3px solid var(--leaf);border-radius:0 12px 12px 0;padding:14px 18px;font-size:.84rem;color:var(--bark);line-height:1.65;margin-top:8px;}
 .update-note strong{color:var(--leaf)}
 
+/* ══ SEARCH & FILTER ══ */
+.search-bar-wrap{display:flex;gap:10px;align-items:center;margin-bottom:28px;flex-wrap:wrap}
+.search-input-wrap{flex:1;min-width:200px;position:relative}
+.search-input-wrap svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:16px;height:16px;opacity:.4;pointer-events:none}
+.search-input{width:100%;background:#fff;border:1.5px solid rgba(59,42,26,.12);border-radius:12px;padding:10px 14px 10px 36px;font-size:.88rem;color:var(--bark);font-family:var(--font-body);outline:none;transition:border-color .2s,box-shadow .2s;}
+.search-input:focus{border-color:var(--leaf);box-shadow:0 0 0 3px rgba(46,125,69,.1)}
+.search-input::placeholder{color:rgba(59,42,26,.35)}
+.filter-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.filter-tab{background:rgba(59,42,26,.06);border:1.5px solid transparent;border-radius:999px;padding:7px 14px;font-size:.74rem;font-weight:600;color:rgba(59,42,26,.6);cursor:pointer;transition:all .15s;white-space:nowrap;}
+.filter-tab:hover{background:rgba(46,125,69,.08);color:var(--leaf)}
+.filter-tab.active{background:var(--leaf);color:#fff;border-color:var(--leaf)}
+.no-results{text-align:center;padding:40px 20px;color:rgba(59,42,26,.4);font-size:.9rem}
+
+/* ══ REVIEWS ══ */
+#reviews{background:var(--cream)}
+.reviews-grid{display:grid;gap:14px;margin-top:28px;grid-template-columns:1fr}
+@media(min-width:768px){.reviews-grid{grid-template-columns:repeat(3,1fr);gap:20px}}
+.rcard{background:#fff;border:1px solid rgba(59,42,26,.07);border-radius:16px;padding:20px;box-shadow:0 2px 10px var(--shadow);display:flex;flex-direction:column;gap:10px;}
+.rcard-stars{color:var(--mango);font-size:.9rem;letter-spacing:2px}
+.rcard-text{font-size:.84rem;color:#5a4333;line-height:1.7;flex:1}
+.rcard-author{display:flex;align-items:center;gap:10px;margin-top:4px}
+.rcard-avatar{width:36px;height:36px;border-radius:50%;background:var(--leaf);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.84rem;flex-shrink:0}
+.rcard-name{font-weight:600;font-size:.82rem;color:var(--bark)}
+.rcard-loc{font-size:.72rem;color:rgba(59,42,26,.45)}
+.reviews-add{margin-top:28px;background:#fff;border:1.5px dashed rgba(46,125,69,.3);border-radius:16px;padding:24px;text-align:center}
+.reviews-add p{font-size:.84rem;color:rgba(59,42,26,.55);margin-bottom:14px}
+.reviews-add-btn{display:inline-flex;align-items:center;gap:8px;background:var(--leaf);color:#fff;border:none;border-radius:12px;padding:11px 22px;font-weight:700;font-size:.84rem;cursor:pointer;transition:background .15s;}
+.reviews-add-btn:hover{background:#246038}
+.review-form-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(6px);padding:20px;}
+.review-form-overlay.open{opacity:1;pointer-events:all}
+.review-form-card{background:#fff;border-radius:20px;width:100%;max-width:440px;padding:28px 24px;transform:scale(.92);transition:transform .3s var(--ease-bounce);}
+.review-form-overlay.open .review-form-card{transform:scale(1)}
+.rf-title{font-family:var(--font-head);font-weight:700;font-size:1.1rem;color:var(--bark);margin-bottom:18px}
+.rf-stars{display:flex;gap:6px;margin-bottom:16px}
+.rf-star{font-size:1.6rem;cursor:pointer;transition:transform .1s;line-height:1}
+.rf-star:hover{transform:scale(1.2)}
+.rf-field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
+.rf-field label{font-size:.72rem;font-weight:600;color:rgba(59,42,26,.6);text-transform:uppercase;letter-spacing:.07em}
+.rf-field input,.rf-field textarea{background:rgba(59,42,26,.04);border:1.5px solid rgba(59,42,26,.12);border-radius:10px;padding:10px 13px;font-size:.88rem;color:var(--bark);font-family:var(--font-body);outline:none;transition:border-color .2s;width:100%;}
+.rf-field input:focus,.rf-field textarea:focus{border-color:var(--leaf)}
+.rf-field textarea{resize:none;min-height:80px}
+.rf-btns{display:flex;gap:10px;margin-top:16px}
+.rf-cancel{flex:1;background:rgba(59,42,26,.07);border:none;border-radius:10px;padding:12px;font-weight:600;color:var(--bark);cursor:pointer;font-size:.88rem;}
+.rf-submit{flex:2;background:var(--leaf);color:#fff;border:none;border-radius:10px;padding:12px;font-weight:700;font-size:.88rem;cursor:pointer;transition:background .15s;}
+.rf-submit:hover{background:#246038}
+
+/* ══ MAP SECTION ══ */
+#mapSec{background:var(--bark)}
+#mapSec .s-label{color:var(--mango)}
+#mapSec .s-title{color:#fff}
+.map-embed-wrap{border-radius:16px;overflow:hidden;height:320px;margin-top:24px;border:2px solid rgba(255,255,255,.1)}
+@media(min-width:768px){.map-embed-wrap{height:420px}}
+
+/* ══ LANG TOGGLE ══ */
+.lang-toggle{display:flex;align-items:center;gap:6px;background:rgba(59,42,26,.07);border:1.5px solid rgba(59,42,26,.1);border-radius:999px;padding:4px;cursor:pointer;flex-shrink:0}
+.lang-opt{padding:4px 12px;border-radius:999px;font-size:.7rem;font-weight:700;transition:all .15s;color:rgba(59,42,26,.5);}
+.lang-opt.active{background:var(--leaf);color:#fff}
+
+/* ══ PWA INSTALL BANNER ══ */
+.pwa-banner{display:none;position:fixed;bottom:72px;left:12px;right:12px;z-index:450;background:var(--bark);color:#fff;border-radius:16px;padding:14px 18px;box-shadow:0 8px 28px rgba(0,0,0,.3);align-items:center;gap:12px;animation:slideUp .4s var(--ease-bounce);}
+@media(min-width:768px){.pwa-banner{left:auto;right:28px;bottom:100px;width:320px}}
+.pwa-banner.show{display:flex}
+.pwa-banner-icon{font-size:1.6rem;flex-shrink:0}
+.pwa-banner-text{flex:1}
+.pwa-banner-text strong{display:block;font-size:.88rem;margin-bottom:2px}
+.pwa-banner-text span{font-size:.74rem;opacity:.65}
+.pwa-install-btn{background:var(--leaf);color:#fff;border:none;border-radius:10px;padding:8px 14px;font-weight:700;font-size:.78rem;cursor:pointer;white-space:nowrap;transition:background .15s;}
+.pwa-install-btn:hover{background:#246038}
+.pwa-dismiss{background:none;border:none;color:rgba(255,255,255,.5);cursor:pointer;font-size:1.1rem;padding:2px 6px;}
+
 /* ══ WHY US ══ */
 #why{background:var(--bark)}
 #why .s-label{color:var(--mango)}
@@ -361,6 +433,10 @@ address strong{color:#fff}
   <a class="nav-brand" href="#" id="navBrand">…</a>
   <ul class="nav-links" id="navLinks"></ul>
   <div class="nav-right">
+    <div class="lang-toggle" onclick="toggleLang()" title="Switch language">
+      <span class="lang-opt active" id="langNP">NP</span>
+      <span class="lang-opt" id="langEN">EN</span>
+    </div>
     <button class="nav-cart-btn" onclick="openCart()" aria-label="Open cart">
       <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6" stroke="#fff" stroke-width="2" fill="none"/><path d="M16 10a4 4 0 01-8 0" stroke="#fff" stroke-width="2" fill="none"/></svg>
       🛒 View Cart
@@ -434,6 +510,14 @@ address strong{color:#fff}
     <h2 class="s-title will-reveal" id="freshTitle"></h2>
     <p class="s-sub will-reveal" id="freshSub"></p>
     <div class="date-pill will-reveal">📅 &nbsp;<span id="todayDate"></span></div>
+    <!-- SEARCH & FILTER -->
+    <div class="search-bar-wrap will-reveal">
+      <div class="search-input-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <input class="search-input" id="searchInput" type="text" placeholder="Search vegetables, fruits…" oninput="filterProducts()"/>
+      </div>
+      <div class="filter-tabs" id="filterTabs"></div>
+    </div>
     <div id="categoriesRoot"></div>
     <div class="update-note will-reveal" id="updateNote"></div>
   </div>
@@ -445,6 +529,33 @@ address strong{color:#fff}
     <p class="s-label will-reveal" id="whyLabel"></p>
     <h2 class="s-title will-reveal" id="whyTitle"></h2>
     <div class="why-grid reveal-stagger" id="whyGrid"></div>
+  </div>
+</section>
+
+<!-- ══ REVIEWS ══ -->
+<section id="reviews">
+  <div class="section">
+    <p class="s-label will-reveal">Happy Customers • खुसी ग्राहकहरू</p>
+    <h2 class="s-title will-reveal">के भन्छन् हाम्रा छिमेकीहरू? 💬</h2>
+    <div class="reviews-grid reveal-stagger" id="reviewsGrid"></div>
+    <div class="reviews-add will-reveal">
+      <p>तपाईंको अनुभव सेयर गर्नुहोस् • Share your experience</p>
+      <button class="reviews-add-btn" onclick="openReviewForm()">⭐ Write a Review</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══ MAP ══ -->
+<section id="mapSec">
+  <div class="section">
+    <p class="s-label will-reveal">हाम्रो स्थान • Our Location</p>
+    <h2 class="s-title will-reveal">हामीलाई यहाँ भेट्नुहोस् 📍</h2>
+    <div class="map-embed-wrap will-reveal">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3531.234!2d85.4!3d27.7!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39eb1b5b5b5b5b5b%3A0x5b5b5b5b5b5b5b5b!2sSaraswotikhel%2C%20Bhaktapur!5e0!3m2!1sen!2snp!4v1620000000000!5m2!1sen!2snp" width="100%" height="100%" style="border:0" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+    <div style="margin-top:16px;text-align:center">
+      <a href="https://maps.app.goo.gl/KnAvfQ67dY2ooY4f7" target="_blank" rel="noopener" class="fu-card-btn" style="display:inline-flex">📍 Open in Google Maps →</a>
+    </div>
   </div>
 </section>
 
@@ -502,6 +613,38 @@ address strong{color:#fff}
     </div>
   </div>
 </footer>
+
+<!-- ══ PWA INSTALL BANNER ══ -->
+<div class="pwa-banner" id="pwaBanner">
+  <div class="pwa-banner-icon">📲</div>
+  <div class="pwa-banner-text">
+    <strong>Install Gharayesi App</strong>
+    <span>Order faster from your home screen</span>
+  </div>
+  <button class="pwa-install-btn" id="pwaInstallBtn">Install</button>
+  <button class="pwa-dismiss" onclick="dismissPWA()">✕</button>
+</div>
+
+<!-- ══ REVIEW FORM ══ -->
+<div class="review-form-overlay" id="reviewFormOverlay">
+  <div class="review-form-card">
+    <div class="rf-title">⭐ Write Your Review</div>
+    <div class="rf-stars" id="rfStars">
+      <span class="rf-star" onclick="setRating(1)">☆</span>
+      <span class="rf-star" onclick="setRating(2)">☆</span>
+      <span class="rf-star" onclick="setRating(3)">☆</span>
+      <span class="rf-star" onclick="setRating(4)">☆</span>
+      <span class="rf-star" onclick="setRating(5)">☆</span>
+    </div>
+    <div class="rf-field"><label>Your Name *</label><input type="text" id="rfName" placeholder="e.g. Sunita Tamang"/></div>
+    <div class="rf-field"><label>Location</label><input type="text" id="rfLoc" placeholder="e.g. Saraswotikhel"/></div>
+    <div class="rf-field"><label>Your Review *</label><textarea id="rfText" placeholder="Tell us about your experience…"></textarea></div>
+    <div class="rf-btns">
+      <button class="rf-cancel" onclick="closeReviewForm()">Cancel</button>
+      <button class="rf-submit" onclick="submitReview()">Submit Review ⭐</button>
+    </div>
+  </div>
+</div>
 
 <!-- ══ CART OVERLAY + DRAWER ══ -->
 <div class="cart-overlay" id="cartOverlay" onclick="closeCart()"></div>
@@ -566,12 +709,12 @@ import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/fireba
 import { getFirestore, collection, addDoc, serverTimestamp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
 
 const firebaseConfig = {
-  apiKey: "REPLACE_WITH_YOUR_API_KEY",
-  authDomain: "REPLACE_WITH_YOUR_AUTH_DOMAIN",
-  projectId: "REPLACE_WITH_YOUR_PROJECT_ID",
-  storageBucket: "REPLACE_WITH_YOUR_STORAGE_BUCKET",
-  messagingSenderId: "REPLACE_WITH_YOUR_MESSAGING_SENDER_ID",
-  appId: "REPLACE_WITH_YOUR_APP_ID"
+  apiKey: "AIzaSyD3Rs5wnoPCcq1pvh-dNHAg3BGxdGic49A",
+  authDomain: "gharayesi-cc9c9.firebaseapp.com",
+  projectId: "gharayesi-cc9c9",
+  storageBucket: "gharayesi-cc9c9.firebasestorage.app",
+  messagingSenderId: "926304037440",
+  appId: "1:926304037440:web:d84ad9223e574a4112cda5"
 };
 
 let db = null;
@@ -603,7 +746,7 @@ window._saveOrderToFirestore = async function(orderData) {
 const EMBEDDED_CONFIG = {"meta":{"shopName":"सरस्वतीखेल स्मार्ट सेवा - घरायेसी","shopNameHighlight":"घरायेसी","tagline":"सुरुवात एक अटुट सम्बन्धको","location":"सरस्वतीखेल, भक्तपुर (बस्पार्कबाट मन्दिर जाने उकालो तर्फ)","badgeText":"सरस्वतीखेल","whatsappNumber":"9709612863","whatsappMessage":"Order:                      Name:                  Number:              Address:              ","address":"बस्पार्कबाट मन्दिर जाने उकालो तर्फ, सरस्वतीखेल, भक्तपुर","phone":"+977 9709612863","logoUrl":"https://raw.githubusercontent.com/SaraswotikhelSmartSewa/gharayesi/refs/heads/main/IMG_20260411_223531.png","faviconUrl":"https://raw.githubusercontent.com/SaraswotikhelSmartSewa/gharayesi/refs/heads/main/IMG_20260411_223531.png"},"theme":{"colorCream":"#fdf6ec","colorBark":"#3b2a1a","colorLeaf":"#2e7d45","colorSaffron":"#e8880a","colorMango":"#fbbf24","colorTomato":"#e03535","colorSky":"#1e9fd4","colorLavender":"#7c5cbf","colorChili":"#d14b0f","colorWhatsapp":"#25D366","bgMain":"#fdf6ec","bgHeader":"#2e7d45","bgWhy":"#3b2a1a","bgFooter":"#241809","grainOpacity":"0.04"},"fonts":{"headingFont":"Playfair Display","bodyFont":"DM Sans","monoFont":"Space Mono","headingFontUrl":"https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap","bodyFontUrl":"https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap","monoFontUrl":"https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap","bodySize":"0.8rem","useDevanagari":true,"devanagariFont":"Tiro Devanagari Hindi","devanagariUrl":"https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&display=swap"},"stats":[{"number":"8 AM","label":"दैनिक खुल्ने समय • Opens Daily"},{"number":"8 PM","label":"दैनिक बन्द हुने समय • Last Order"},{"number":"4.9★","label":"Local Rating"}],"hours":[{"day":"आईतबार - शुक्रबार","time":"8:00 AM – 8:00 PM","closed":false},{"day":"शनिबार","time":"8:00 AM – 8:00 PM","closed":false},{"day":"Dashain / Tihar","time":"Special Hours","closed":false},{"day":"Public Holidays","time":"Verify on Message or Call","closed":true}],"ticker":[{"text":"🏠घरमै बसि अर्डर गर्नको लागि ह्वाट्सएप (WhatsApp) मा सम्पर्क गर्नुहोला","color":"c1"},{"text":"Order from home via WhatsApp! 🏠","color":"c2"},{"text":"🎉 नयाँ वर्ष २०८३ को हार्दिक शुभकामना!","color":"c3"},{"text":"Happy New Year 2083 BS! 🎉","color":"c1"},{"text":"🛵 मात्र रु २५ मा घरमै डेलिभरी!","color":"c2"},{"text":"Home delivery for just Rs. 25! 🛵","color":"c3"}],"whyUs":[{"icon":"🌿","title":"ताजा उत्पादन • Fresh products","desc":"हरेक दिन ताजा ल्याइने। कोल्ड स्टोरमा नराखिएको • Daily sourced, no cold storage."},{"icon":"💬","title":"सजिलो WhatsApp अर्डर","desc":"तपाईंको अर्डर टाइप गर्नुहोस् र घरमै पाउनुहोस् । सुन्दा जति सजिलो काम पनि त्यति नै सजिलो। • Just type in your order and get them at your door."},{"icon":"⚡","title":"छिटो डेलिभरी • Quick Delivery","desc":"तपाईंको आफ्नै टोलबाट द्रुत डेलिभरी । छिटो र छरितो स्थानीय सेवा • Fast delivery from your own neighborhood."},{"icon":"🤝","title":"उचित मूल्य • Fair Prices","desc":"हाम्रो मूल्य सिधै कालिमाटीको थोक बजार भाउमा आधारित छ • Our prices are based directly on the Kalimati wholesale market rates."}],"sections":{"freshLabel":"Updated Daily","freshTitle":"आजको ताजा सूची • Today's Fresh List","freshSub":"मूल्य • Prices shown per unit.","update-note":"📌 मूल्यहरू दैनिक रूपमा अपडेट हुन्छन्। ताजापन सुनिश्चित गर्न बिहान ११ बजेभन्दा अगाडि नै अर्डर गर्नुहोला।","whyLabel":"तपाईंका छिमेकीहरूले हामीलाई किन विश्वास गर्छन् त? • Why Neighbors Trust Us","whyTitle":"हाम्रा विशेषता • Our Service","footer-brand-tagline":"सरस्वतीखेलको मुटुमा, दैनिक ताजा सामग्रीका लागि तपाईंको छिमेककै भरपर्दो पसल।","footer-note":"सरस्वतीखेल समुदायको सेवामा समर्पित 🌿"},"links":[{"icon":"📍","label":"Find Us on Map","sublabel":"","url":"https://maps.app.goo.gl/KnAvfQ67dY2ooY4f7","type":"custom","color":"lbtn-map"},{"icon":"📲","label":"Facebook","sublabel":"Message us on","url":"https://www.facebook.com/GharayesiSewa","type":"custom","color":"lbtn-blue"}],"categories":[{"id":"cat0","name":"तरकारीहरू • Vegetables","icon":"🥬","iconBg":"#2e7d45","items":[{"id":"item17764997137400.7861976682778338","name":"डल्ले आलु • Round Potato","imageUrl":"https://github.com/SaraswotikhelSmartSewa/Gharayesi/blob/main/IMG_20260411_130217.png?raw=true","badge":"sale","prices":[{"unit":"किलो • kg","price":30},{"unit":"धार्नी • Dharni","price":72}]},{"id":"item17764997137400.3767262679298883","name":"प्याज • Onion","imageUrl":"https://github.com/SaraswotikhelSmartSewa/Gharayesi/blob/main/IMG_20260411_130306.png?raw=true","badge":"sale","prices":[{"unit":"किलो • kg","price":50}]}]}],"navLinks":[{"label":"ताजा सूची • Fresh Lists","anchor":"#fresh"},{"label":"हाम्रो बाचा • Why us?","anchor":"#why"},{"label":"हाम्रो पसल • Our Store","anchor":"#findUs"},{"label":"समय • Timings","anchor":"#footer-sec"}]};
 
 /* ══ BS DATE UTILS ══ */
-const BS_DATA=[[30,32,31,32,31,30,30,30,29,29,30,30],[31,31,32,31,31,30,30,30,29,30,29,31],[31,31,32,32,31,30,30,30,29,30,30,30],[31,32,31,32,31,30,30,30,29,29,30,30],[30,32,31,32,31,30,30,30,29,30,29,31],[31,31,32,31,31,31,30,29,30,29,30,30],[30,31,32,32,30,31,30,29,30,29,30,30],[30,32,31,32,31,30,30,30,29,29,30,31],[31,31,31,32,31,31,29,30,30,29,30,30],[31,31,32,31,31,31,30,29,30,29,30,30],[31,31,32,32,31,30,30,29,30,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,30,29,31],[31,31,32,31,31,30,30,30,29,30,29,31],[31,31,32,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,30,29,31],[31,31,31,32,31,31,30,29,30,29,30,30],[31,31,32,31,31,31,30,29,30,29,30,30],[31,32,31,32,31,30,30,29,30,29,30,30]];
+const BS_DATA=[[30,32,31,32,31,30,30,30,29,29,30,30],[31,31,32,31,31,30,30,30,29,30,29,31],[31,31,32,32,31,30,30,30,29,30,30,30],[31,32,31,32,31,30,30,30,29,29,30,30],[30,32,31,32,31,30,30,30,29,30,29,31],[31,31,32,31,31,31,30,29,30,29,30,30],[30,31,32,32,30,31,30,29,30,29,30,30],[30,32,31,32,31,30,30,30,29,29,30,31],[31,31,31,32,31,31,29,30,30,29,30,30],[31,31,32,31,31,31,30,29,30,29,30,30],[31,31,32,32,31,30,30,29,30,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,30,29,31],[31,31,32,31,31,30,30,30,29,30,29,31],[31,31,32,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,30,29,31],[31,31,31,32,31,31,30,29,30,29,30,30],[31,31,32,31,31,31,30,29,30,29,30,30],[31,32,31,32,31,30,30,29,30,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,31],[31,31,31,32,31,31,30,29,30,29,30,30],[31,31,32,31,31,31,30,29,30,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,30,29,31],[31,31,32,31,31,30,30,30,29,30,29,31],[31,31,32,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,30,29,31],[31,31,31,32,31,31,29,30,30,29,29,31],[31,31,32,31,31,31,30,29,30,29,30,30],[31,31,32,32,31,30,30,29,30,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,31],[31,31,31,32,31,31,30,29,30,29,30,30],[31,31,32,31,31,31,30,29,30,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,30,29,31],[31,31,32,31,31,30,30,30,29,30,29,31],[31,31,32,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,30,29,31],[31,31,31,32,31,31,30,29,30,29,30,30],[31,31,32,31,31,31,30,29,30,29,30,30],[31,31,32,32,31,30,30,29,30,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,31],[31,31,31,32,31,31,29,30,30,29,30,30],[31,31,32,31,31,31,30,29,30,29,30,30],[31,32,31,32,31,30,30,29,30,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,31],[31,31,31,32,31,31,30,29,30,29,30,30],[31,31,32,31,31,31,30,29,30,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,30,29,31],[31,31,32,31,31,30,30,30,29,30,29,31],[31,31,32,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,30,29,31],[31,31,31,32,31,31,30,29,30,29,30,30],[31,31,32,31,31,31,30,29,30,29,30,30],[31,32,31,32,31,30,30,29,30,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,31],[31,31,31,32,31,31,29,30,30,29,30,30],[31,31,32,31,31,31,30,29,30,29,30,30],[31,31,32,32,31,30,30,29,30,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,31],[31,31,31,32,31,31,30,29,30,29,30,30],[31,31,32,31,31,31,30,29,30,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,30,29,31],[31,31,32,31,31,30,30,30,29,30,29,31],[31,31,32,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,30,29,31],[31,31,31,32,31,31,30,29,30,29,30,30],[31,31,32,31,31,31,30,29,30,29,30,30],[31,32,31,32,31,30,30,29,30,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,31],[31,31,31,32,31,31,29,30,30,29,30,30],[31,31,32,31,31,31,30,29,30,29,30,30],[31,31,32,32,31,30,30,29,30,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,31],[31,31,31,32,31,31,30,29,30,29,30,30],[31,31,32,31,31,31,30,29,30,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,30,29,31],[31,31,32,31,31,30,30,30,29,30,29,31],[31,31,32,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,30]];
 const BS_START=2000;const AD_REF=new Date(1943,3,14);
 const MNP=['बैशाख','जेष्ठ','आषाढ','श्रावण','भाद्र','आश्विन','कार्तिक','मंसिर','पौष','माघ','फाल्गुन','चैत्र'];
 const ADEN=['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -611,7 +754,7 @@ const DNP=['आइतबार','सोमबार','मंगलबार','�
 const NPD=['०','१','२','३','४','५','६','७','८','९'];
 function toNP(n){return String(n).split('').map(c=>/\d/.test(c)?NPD[+c]:c).join('')}
 function pad2(n){return String(n).padStart(2,'0')}
-function adToBS(date){const ref=new Date(AD_REF);const inp=new Date(date.getFullYear(),date.getMonth(),date.getDate());let diff=Math.round((inp-ref)/86400000);let yi=0;while(yi<BS_DATA.length){const yd=BS_DATA[yi].reduce((a,b)=>a+b,0);if(diff<yd)break;diff-=yd;yi++;}const months=BS_DATA[yi];let mi=0;while(mi<12){if(diff<months[mi])break;diff-=months[mi];mi++;}return{y:BS_START+yi,m:mi,d:diff+1};}
+function adToBS(date){try{const ref=new Date(AD_REF);const inp=new Date(date.getFullYear(),date.getMonth(),date.getDate());let diff=Math.round((inp-ref)/86400000);let yi=0;while(yi<BS_DATA.length){const yd=BS_DATA[yi].reduce((a,b)=>a+b,0);if(diff<yd)break;diff-=yd;yi++;}if(yi>=BS_DATA.length)return{y:BS_START+yi,m:0,d:1};const months=BS_DATA[yi];let mi=0;while(mi<12){if(diff<months[mi])break;diff-=months[mi];mi++;}return{y:BS_START+yi,m:mi,d:diff+1};}catch(e){return{y:2083,m:0,d:1};}}
 
 /* ══ LIVE CLOCK ══ */
 function tick(){
@@ -848,12 +991,12 @@ function render(cfg){
   // Products with cart buttons
   const catRoot=document.getElementById('categoriesRoot');catRoot.innerHTML='';
   (categories||[]).forEach(cat=>{
-    const grp=document.createElement('div');grp.className='cat-group';
+    const grp=document.createElement('div');grp.className='cat-group';grp.dataset.catId=cat.id;
     grp.innerHTML=`<div class="cat-head"><div class="cat-icon" style="background:${cat.iconBg||'var(--leaf)'}"> ${cat.icon}</div><span class="cat-name">${cat.name}</span><div class="cat-line"></div></div>`;
     const grid=document.createElement('div');grid.className='items-grid reveal-stagger';
     (cat.items||[]).forEach(item=>{
       const priceList=item.prices&&item.prices.length?item.prices:[{unit:item.unit||'',price:item.price||0}];
-      const card=document.createElement('div');card.className='icard will-reveal';
+      const card=document.createElement('div');card.className='icard will-reveal';card.dataset.name=item.name.toLowerCase();
       const imgBlock=item.imageUrl?`<img class="icard-img" src="${item.imageUrl}" alt="${item.name}" loading="lazy" onerror="this.style.display='none'">`:`<div class="icard-placeholder">${cat.icon}</div>`;
       const badge=item.badge==='hot'?'<span class="bhot">hot pick</span>':item.badge==='sale'?'<span class="bsale">sale</span>':'';
       const priceHtml=priceList.map(p=>`<div class="price-row"><span class="price-unit">${p.unit}</span><span class="iprice"><span class="cur">Rs.</span>&nbsp;${p.price}</span></div>`).join('');
@@ -880,6 +1023,8 @@ function render(cfg){
 
   // Make addToCart available globally after render
   window.addToCart=addToCart;
+  buildFilterTabs(categories);
+  renderReviews();
 
   // Why Us
   const whyGrid=document.getElementById('whyGrid');
@@ -902,8 +1047,135 @@ function render(cfg){
   setTimeout(initScrollReveal,50);
 }
 
+/* ══ SEARCH & FILTER ══ */
+let allCategories = [];
+function filterProducts(){
+  const q = document.getElementById('searchInput')?.value.toLowerCase().trim() || '';
+  const activeTab = document.querySelector('.filter-tab.active')?.dataset.cat || 'all';
+  let anyVisible = false;
+  document.querySelectorAll('.cat-group').forEach(grp => {
+    const catId = grp.dataset.catId;
+    const catMatch = activeTab === 'all' || catId === activeTab;
+    let catHasItem = false;
+    grp.querySelectorAll('.icard').forEach(card => {
+      const name = card.dataset.name || '';
+      const match = catMatch && (!q || name.includes(q));
+      card.style.display = match ? '' : 'none';
+      if(match) catHasItem = true;
+    });
+    grp.style.display = catHasItem ? '' : 'none';
+    if(catHasItem) anyVisible = true;
+  });
+  let noRes = document.getElementById('noResults');
+  if(!anyVisible){
+    if(!noRes){noRes=document.createElement('div');noRes.id='noResults';noRes.className='no-results';noRes.textContent='No items found. Try a different search.';document.getElementById('categoriesRoot').appendChild(noRes);}
+  } else {
+    if(noRes) noRes.remove();
+  }
+}
+function setFilterTab(catId){
+  document.querySelectorAll('.filter-tab').forEach(t=>t.classList.toggle('active', t.dataset.cat===catId));
+  filterProducts();
+}
+function buildFilterTabs(categories){
+  const tabs = document.getElementById('filterTabs'); if(!tabs) return;
+  tabs.innerHTML = `<button class="filter-tab active" data-cat="all" onclick="setFilterTab('all')">🌿 All</button>` +
+    (categories||[]).map(c=>`<button class="filter-tab" data-cat="${c.id}" onclick="setFilterTab('${c.id}')">${c.icon} ${c.name.split('•')[0].trim()}</button>`).join('');
+}
+window.filterProducts = filterProducts;
+window.setFilterTab = setFilterTab;
+
+/* ══ REVIEWS ══ */
+let reviewRating = 5;
+const DEFAULT_REVIEWS = [
+  {name:'Sunita Shrestha', loc:'Saraswotikhel', stars:5, text:'धेरै राम्रो सेवा! ताजा तरकारी र समयमा डेलिभरी। सबैलाई सिफारिस गर्छु। • Excellent service, fresh veggies on time!'},
+  {name:'Ramesh Tamang', loc:'Bhaktapur', stars:5, text:'Prices are very fair and the WhatsApp ordering is super easy. My family orders every week!'},
+  {name:'Puja Maharjan', loc:'Saraswotikhel', stars:5, text:'घरमै बसेर अर्डर गर्न पाउँदा धेरै सजिलो भयो। मूल्य पनि उचित छ।'}
+];
+function loadReviews(){
+  const stored = JSON.parse(localStorage.getItem('gharayesi_reviews')||'[]');
+  return [...DEFAULT_REVIEWS, ...stored];
+}
+function renderReviews(){
+  const grid = document.getElementById('reviewsGrid'); if(!grid) return;
+  const reviews = loadReviews();
+  grid.innerHTML = reviews.map(r=>{
+    const stars = '★'.repeat(r.stars)+'☆'.repeat(5-r.stars);
+    const initial = (r.name||'?')[0].toUpperCase();
+    return `<div class="rcard will-reveal">
+      <div class="rcard-stars">${stars}</div>
+      <div class="rcard-text">"${r.text}"</div>
+      <div class="rcard-author">
+        <div class="rcard-avatar">${initial}</div>
+        <div><div class="rcard-name">${r.name}</div><div class="rcard-loc">📍 ${r.loc||'Nepal'}</div></div>
+      </div>
+    </div>`;
+  }).join('');
+  setTimeout(initScrollReveal, 50);
+}
+window.openReviewForm = function(){ document.getElementById('reviewFormOverlay').classList.add('open'); reviewRating=5; setRating(5); }
+window.closeReviewForm = function(){ document.getElementById('reviewFormOverlay').classList.remove('open'); }
+window.setRating = function(n){
+  reviewRating = n;
+  document.querySelectorAll('.rf-star').forEach((s,i)=>s.textContent=i<n?'★':'☆');
+}
+window.submitReview = function(){
+  const name = document.getElementById('rfName').value.trim();
+  const text = document.getElementById('rfText').value.trim();
+  const loc = document.getElementById('rfLoc').value.trim();
+  if(!name||!text){alert('Please enter your name and review.');return;}
+  const stored = JSON.parse(localStorage.getItem('gharayesi_reviews')||'[]');
+  stored.unshift({name, loc:loc||'Nepal', stars:reviewRating, text});
+  localStorage.setItem('gharayesi_reviews', JSON.stringify(stored));
+  closeReviewForm();
+  renderReviews();
+  document.getElementById('rfName').value='';
+  document.getElementById('rfText').value='';
+  document.getElementById('rfLoc').value='';
+  alert('✅ Thank you for your review!');
+}
+
+/* ══ LANGUAGE TOGGLE ══ */
+let currentLang = 'NP';
+const LANG = {
+  freshTitle: { NP:'आजको ताजा सूची • Today\'s Fresh List', EN:'Today\'s Fresh List' },
+  whyTitle: { NP:'हाम्रा विशेषता • Our Service', EN:'Our Services' },
+  waBar: { NP:'Tap to Order on WhatsApp', EN:'Order on WhatsApp' }
+};
+window.toggleLang = function(){
+  currentLang = currentLang==='NP'?'EN':'NP';
+  document.getElementById('langNP').classList.toggle('active', currentLang==='NP');
+  document.getElementById('langEN').classList.toggle('active', currentLang==='EN');
+  // Swap visible text where applicable
+  const ft = document.getElementById('freshTitle');
+  if(ft) ft.textContent = LANG.freshTitle[currentLang];
+  const wt = document.getElementById('whyTitle');
+  if(wt) wt.textContent = LANG.whyTitle[currentLang];
+}
+
+/* ══ PWA ══ */
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  const banner = document.getElementById('pwaBanner');
+  if(banner && !localStorage.getItem('pwaDismissed')) banner.classList.add('show');
+});
+document.getElementById('pwaInstallBtn')?.addEventListener('click', async () => {
+  if(!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  document.getElementById('pwaBanner').classList.remove('show');
+});
+window.dismissPWA = function(){
+  document.getElementById('pwaBanner').classList.remove('show');
+  localStorage.setItem('pwaDismissed','1');
+}
+
 render(EMBEDDED_CONFIG);
 (async()=>{try{const ctrl=new AbortController();setTimeout(()=>ctrl.abort(),4000);const res=await fetch('site-config.json?v='+Date.now(),{signal:ctrl.signal});if(!res.ok)return;const fresh=await res.json();if(JSON.stringify(fresh)!==JSON.stringify(EMBEDDED_CONFIG)){render(fresh);}}catch(e){}})();
+if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
 </script>
 </body>
 </html>
