@@ -1137,9 +1137,6 @@ window.setFilterTab = setFilterTab;
 /* ══ REVIEWS ══ */
 let reviewRating = 5;
 const DEFAULT_REVIEWS = [
-  {name:'Sunita Shrestha', loc:'Saraswotikhel', stars:5, text:'धेरै राम्रो सेवा! ताजा तरकारी र समयमा डेलिभरी। सबैलाई सिफारिस गर्छु। • Excellent service, fresh veggies on time!'},
-  {name:'Ramesh Tamang', loc:'Bhaktapur', stars:5, text:'Prices are very fair and the WhatsApp ordering is super easy. My family orders every week!'},
-  {name:'Puja Maharjan', loc:'Saraswotikhel', stars:5, text:'घरमै बसेर अर्डर गर्न पाउँदा धेरै सजिलो भयो। मूल्य पनि उचित छ।'}
 ];
 function loadReviews(){
   const stored = JSON.parse(localStorage.getItem('gharayesi_reviews')||'[]');
