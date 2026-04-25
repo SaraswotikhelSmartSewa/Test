@@ -161,42 +161,26 @@
       "iconBg": "#2e7d45",
       "items": [
         {
-          "id": "item17766833230030.027975068109987067",
+          "id": "item17770799970680.6778792148354124",
           "name": "डल्ले आलु • Round Potato",
           "imageUrl": "https://github.com/SaraswotikhelSmartSewa/Gharayesi/blob/main/IMG_20260411_130217.png?raw=true",
           "badge": "sale",
           "prices": [
             {
               "unit": "किलो • kg",
-              "price": 30
-            },
-            {
-              "unit": "धार्नी • Dharni",
-              "price": 72
+              "price": 26
             }
           ]
         },
         {
-          "id": "item17766833230030.21240006225408925",
+          "id": "item17770799970680.6663196003517678",
           "name": "प्याज • Onion",
           "imageUrl": "https://github.com/SaraswotikhelSmartSewa/Gharayesi/blob/main/IMG_20260411_130306.png?raw=true",
           "badge": "sale",
           "prices": [
             {
               "unit": "किलो • kg",
-              "price": 50
-            }
-          ]
-        },
-        {
-          "id": "item17766833230030.5359219769079205",
-          "name": "Delivery",
-          "imageUrl": "https://github.com/SaraswotikhelSmartSewa/gharayesi/blob/main/Gemini_Generated_Image_fou4gxfou4gxfou4.png?raw=true",
-          "badge": "hot",
-          "prices": [
-            {
-              "unit": "Per delivery",
-              "price": 25
+              "price": 46
             }
           ]
         }
@@ -226,5 +210,58 @@
     "label": "Find Us",
     "title": "Visit Our Shop",
     "cards": []
-  }
+  },
+  "splashAds": [
+    {
+      "imageUrl": "https://github.com/SaraswotikhelSmartSewa/gharayesi/blob/main/Delivery%20with%20text.png?raw=true",
+      "linkUrl": "",
+      "label": "Advertisement",
+      "duration": 3,
+      "active": true
+    }
+  ],
+  "banners": [
+    {
+      "imageUrl": "https://github.com/SaraswotikhelSmartSewa/gharayesi/blob/main/Delivery%20with%20text.png?raw=true",
+      "linkUrl": "",
+      "position": "after-ticker",
+      "label": "",
+      "active": true,
+      "objectFit": "contain",
+      "maxWidth": 27.5,
+      "height": 15
+    },
+    {
+      "imageUrl": "https://github.com/SaraswotikhelSmartSewa/gharayesi/blob/main/Delivery%20with%20text.png?raw=true",
+      "linkUrl": "",
+      "position": "after-fresh",
+      "label": "",
+      "active": true,
+      "height": 15,
+      "maxWidth": 27.5,
+      "borderRadius": 12,
+      "paddingH": 20,
+      "marginTop": 0,
+      "marginBottom": 20,
+      "objectFit": "cover",
+      "shadow": true,
+      "bgColor": ""
+    },
+    {
+      "imageUrl": "https://github.com/SaraswotikhelSmartSewa/gharayesi/blob/main/Delivery%20with%20text.png?raw=true",
+      "linkUrl": "",
+      "position": "after-reviews",
+      "label": "1",
+      "active": true,
+      "height": 15,
+      "maxWidth": 28,
+      "borderRadius": 12,
+      "paddingH": 20,
+      "marginTop": 0,
+      "marginBottom": 20,
+      "objectFit": "fill",
+      "shadow": true,
+      "bgColor": ""
+    }
+  ]
 }
