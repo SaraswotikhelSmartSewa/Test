@@ -9,7 +9,7 @@
 <meta name="theme-color" content="#2e7d45"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<style>
+<style>   
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --cream:#fdf6ec;--bark:#3b2a1a;--leaf:#2e7d45;--saffron:#e8880a;
@@ -420,6 +420,9 @@ address strong{color:#fff}
 .cart-total-label{font-size:.84rem;color:rgba(59,42,26,.6)}
 .cart-total-val{font-family:var(--font-mono);font-weight:700;font-size:1.1rem;color:var(--bark)}
 .delivery-note{background:rgba(46,125,69,.08);border-radius:10px;padding:10px 14px;font-size:.76rem;color:var(--leaf);font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.pickup-toggle{display:flex;gap:0;margin-bottom:12px;border-radius:10px;overflow:hidden;border:1px solid rgba(59,42,26,.12)}
+.pickup-toggle button{flex:1;padding:10px;border:none;cursor:pointer;font-size:.8rem;font-weight:700;transition:background .2s,color .2s;background:transparent;color:rgba(59,42,26,.5)}
+.pickup-toggle button.active{background:var(--leaf);color:#fff}
 .checkout-btn{width:100%;background:var(--wa);color:#fff;border:none;border-radius:14px;padding:15px;font-weight:700;font-size:1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;transition:transform .15s,box-shadow .15s;box-shadow:0 4px 16px rgba(37,211,102,.4);}
 .checkout-btn:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(37,211,102,.52)}
 .checkout-btn:active{transform:scale(.97)}
@@ -778,9 +781,13 @@ address,.fhrow,.fbrand p{font-size:var(--fs-footer)}
   </div>
   <div class="cart-body" id="cartBody"></div>
   <div class="cart-footer" id="cartFooter" style="display:none">
-    <div class="delivery-note">🛵 Delivery charge: Rs. 25 only!</div>
+    <div class="pickup-toggle">
+      <button class="active" id="toggleDelivery" onclick="setOrderMode('delivery')">🛵 Delivery</button>
+      <button id="togglePickup" onclick="setOrderMode('pickup')">🏪 Self Pickup</button>
+    </div>
+    <div class="delivery-note" id="deliveryNote">🛵 Delivery charge: Rs. 25 only!</div>
     <div class="cart-total-row">
-      <span class="cart-total-label">Subtotal (excl. delivery)</span>
+      <span class="cart-total-label" id="cartTotalLabel">Subtotal (excl. delivery)</span>
       <span class="cart-total-val" id="cartTotal">Rs. 0</span>
     </div>
     <button class="checkout-btn" onclick="openOrderForm()">
@@ -804,7 +811,7 @@ address,.fhrow,.fbrand p{font-size:var(--fs-footer)}
       <label>Phone Number *</label>
       <input type="tel" id="ofPhone" placeholder="98XXXXXXXX" />
     </div>
-    <div class="of-field">
+    <div class="of-field" id="ofAddressField">
       <label>Delivery Address *</label>
       <textarea id="ofAddress" placeholder="House no., lane, landmark near Saraswatikhe..."></textarea>
     </div>
@@ -1043,11 +1050,30 @@ window.closeCart=function(){
 window.changeQty=changeQty;
 window.removeItem=removeItem;
 
+let orderMode = 'delivery'; // 'delivery' or 'pickup'
+
+window.setOrderMode = function(mode){
+  orderMode = mode;
+  const isDelivery = mode === 'delivery';
+  document.getElementById('toggleDelivery').classList.toggle('active', isDelivery);
+  document.getElementById('togglePickup').classList.toggle('active', !isDelivery);
+  document.getElementById('deliveryNote').style.display = isDelivery ? 'flex' : 'none';
+  document.getElementById('cartTotalLabel').textContent = isDelivery ? 'Subtotal (excl. delivery)' : 'Subtotal (no delivery fee)';
+  document.getElementById('ofAddressField').style.display = isDelivery ? 'block' : 'none';
+  // Update preview if form is open
+  if(document.getElementById('orderFormOverlay').classList.contains('open')) updateOrderPreview();
+}
+
+function updateOrderPreview(){
+  const isDelivery = orderMode === 'delivery';
+  const delivery = isDelivery ? 25 : 0;
+  const lines = cart.map(i=>`• ${i.name} (${i.unit}) × ${i.qty} = Rs. ${i.price*i.qty}`).join('\n');
+  document.getElementById('ofPreview').textContent=`ORDER SUMMARY:\n${lines}\n─────────────\nSubtotal: Rs. ${cartTotal()}\n${isDelivery?'Delivery: Rs. 25\n':''}Total: Rs. ${cartTotal()+delivery}`;
+}
+
 window.openOrderForm=function(){
   if(cart.length===0)return;
-  // Build preview
-  const lines=cart.map(i=>`• ${i.name} (${i.unit}) × ${i.qty} = Rs. ${i.price*i.qty}`).join('\n');
-  document.getElementById('ofPreview').textContent=`ORDER SUMMARY:\n${lines}\n─────────────\nSubtotal: Rs. ${cartTotal()}\nDelivery: Rs. 25\nTotal: Rs. ${cartTotal()+25}`;
+  updateOrderPreview();
   document.getElementById('orderFormOverlay').classList.add('open');
 }
 window.closeOrderForm=function(){
@@ -1057,43 +1083,45 @@ window.closeOrderForm=function(){
 window.placeOrder=async function(){
   const name=document.getElementById('ofName').value.trim();
   const phone=document.getElementById('ofPhone').value.trim();
-  const address=document.getElementById('ofAddress').value.trim();
+  const isDelivery = orderMode === 'delivery';
+  const address=isDelivery ? document.getElementById('ofAddress').value.trim() : 'SELF PICKUP';
   const note=document.getElementById('ofNote').value.trim();
-  if(!name||!phone||!address){alert('Please fill in your name, phone and address.');return;}
+  if(!name||!phone){alert('Please fill in your name and phone.');return;}
+  if(isDelivery&&!document.getElementById('ofAddress').value.trim()){alert('Please fill in your delivery address.');return;}
 
+  const delivery = isDelivery ? 25 : 0;
   const itemLines=cart.map(i=>`• ${i.name} (${i.unit}) × ${i.qty}  = Rs. ${i.price*i.qty}`).join('\n');
   const now=new Date().toLocaleString('en-US',{timeZone:'Asia/Kathmandu'});
   const waMsg=`🛒 *NEW ORDER — घरायेसी*\n`+
     `━━━━━━━━━━━━━━━━━━\n`+
     `👤 *Name:* ${name}\n`+
     `📞 *Phone:* ${phone}\n`+
-    `📍 *Address:* ${address}\n`+
+    (isDelivery?`📍 *Address:* ${address}\n`:`🏪 *Self Pickup*\n`)+
     (note?`📝 *Note:* ${note}\n`:'')+
     `━━━━━━━━━━━━━━━━━━\n`+
     `*ITEMS:*\n${itemLines}\n`+
     `━━━━━━━━━━━━━━━━━━\n`+
     `Subtotal: Rs. ${cartTotal()}\n`+
-    `Delivery: Rs. 25\n`+
-    `*Total: Rs. ${cartTotal()+25}*\n`+
+    (isDelivery?`Delivery: Rs. 25\n`:'')+
+    `*Total: Rs. ${cartTotal()+delivery}*\n`+
     `━━━━━━━━━━━━━━━━━━\n`+
     `🕐 Ordered at: ${now}`;
 
-  // Save to Firebase (silently — won't block if not configured)
-  const orderData={name,phone,address,note,items:cart.map(i=>({...i})),subtotal:cartTotal(),delivery:25,total:cartTotal()+25,orderedAt:now};
+  const orderData={name,phone,address,note,items:cart.map(i=>({...i})),subtotal:cartTotal(),delivery,total:cartTotal()+delivery,orderedAt:now};
   if(window._saveOrderToFirestore){
     window._saveOrderToFirestore(orderData).then(docId=>{if(docId)console.log('Order saved:',docId);});
   }
 
-  // Open WhatsApp
   const waNumber=(siteConfig?.meta?.whatsappNumber)||'9709612863';
   const waUrl=`https://wa.me/${waNumber}?text=${encodeURIComponent(waMsg)}`;
   window.open(waUrl,'_blank');
 
-  // Reset
   cart=[];
   updateCartUI();
   closeOrderForm();
   closeCart();
+  orderMode='delivery';
+  setOrderMode('delivery');
   document.getElementById('ofName').value='';
   document.getElementById('ofPhone').value='';
   document.getElementById('ofAddress').value='';
