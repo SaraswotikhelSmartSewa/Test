@@ -447,6 +447,61 @@ address strong{color:#fff}
 .of-send{flex:2;background:var(--wa);color:#fff;border:none;border-radius:12px;padding:13px;font-weight:700;font-size:.9rem;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .15s,box-shadow .15s;box-shadow:0 3px 12px rgba(37,211,102,.36);}
 .of-send svg{width:18px;height:18px;fill:#fff}
 .of-send:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(37,211,102,.48)}
+/* ══ GO TO TOP ══ */
+@keyframes gttFadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.go-top{position:fixed;bottom:96px;right:16px;z-index:430;width:44px;height:44px;background:var(--bark);color:#fff;border:none;border-radius:50%;cursor:pointer;display:none;align-items:center;justify-content:center;box-shadow:0 4px 18px rgba(59,42,26,.35);transition:background .2s,transform .2s;animation:gttFadeIn .3s var(--ease-bounce);}
+.go-top.visible{display:flex}
+.go-top:hover{background:var(--leaf);transform:translateY(-3px)}
+.go-top svg{width:18px;height:18px;fill:#fff}
+@media(min-width:768px){.go-top{bottom:32px;right:96px;width:48px;height:48px}}
+
+/* ══ FONT SIZE CONTROL ══ */
+:root{
+  --fs-h1:clamp(2.8rem,10vw,3.8rem);
+  --fs-h2:clamp(1.8rem,5vw,2.75rem);
+  --fs-h3:1.2rem;
+  --fs-body:0.9rem;
+  --fs-small:0.78rem;
+  --fs-mono:0.74rem;
+  --fs-badge:0.64rem;
+  --fs-nav:0.78rem;
+  --fs-price:0.92rem;
+  --fs-card-name:0.95rem;
+  --fs-footer:0.83rem;
+  --fs-section-label:0.62rem;
+  --fs-tagline:1.05rem;
+  --fs-btn:0.88rem;
+}
+.shop-name{font-size:var(--fs-h1)!important}
+.s-title{font-size:var(--fs-h2)!important}
+.s-sub{font-size:var(--fs-body)}
+.tagline{font-size:var(--fs-tagline)}
+.s-label{font-size:var(--fs-section-label)}
+.nav-links a{font-size:var(--fs-nav)}
+.iname{font-size:var(--fs-card-name)}
+.iprice{font-size:var(--fs-price)}
+.icard-body{font-size:var(--fs-small)}
+address,.fhrow,.fbrand p{font-size:var(--fs-footer)}
+.nbadge,.filter-tab,.s-label,.fcol-title,.cart-title-count{font-size:var(--fs-badge)}
+.add-btn,.of-send,.checkout-btn,.of-cancel,.rf-submit,.rf-cancel{font-size:var(--fs-btn)}
+.rcard-text,.wdesc{font-size:var(--fs-small)}
+
+/* ══ VIDEO SECTION ══ */
+#videoSec{background:var(--cream)}
+.videos-grid{display:grid;gap:20px;margin-top:32px;grid-template-columns:1fr}
+@media(min-width:768px){.videos-grid{grid-template-columns:repeat(2,1fr);gap:28px}}
+.video-card{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 4px 20px rgba(59,42,26,.08);border:1px solid rgba(59,42,26,.07);transition:transform .22s,box-shadow .22s;}
+@media(min-width:768px){.video-card:hover{transform:translateY(-4px);box-shadow:0 14px 36px rgba(59,42,26,.12)}}
+.video-wrap{position:relative;width:100%;background:#1a1a1a;overflow:hidden}
+.video-wrap video{width:100%;display:block;max-height:400px;object-fit:contain;background:#000}
+.video-wrap iframe{width:100%;border:none;display:block}
+.video-wrap.ratio-16-9{aspect-ratio:16/9}
+.video-wrap.ratio-9-16{aspect-ratio:9/16;max-height:500px}
+.video-wrap.ratio-1-1{aspect-ratio:1/1}
+.video-wrap.ratio-4-3{aspect-ratio:4/3}
+.video-card-body{padding:16px 20px}
+.video-card-title{font-family:var(--font-head);font-weight:700;font-size:1rem;color:var(--bark);margin-bottom:4px}
+.video-card-desc{font-size:.82rem;color:#7a6050;line-height:1.65}
 </style>
 </head>
 <body>
@@ -603,6 +658,20 @@ address strong{color:#fff}
     <div style="margin-top:16px;text-align:center">
       <a href="https://maps.app.goo.gl/KnAvfQ67dY2ooY4f7" target="_blank" rel="noopener" class="fu-card-btn" style="display:inline-flex">📍 Open in Google Maps →</a>
     </div>
+  </div>
+</section>
+
+<!-- ══ GO TO TOP ══ -->
+<button class="go-top" id="goTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Go to top">
+  <svg viewBox="0 0 24 24"><path d="M18 15l-6-6-6 6"/></svg>
+</button>
+
+<!-- ══ VIDEO SECTION ══ -->
+<section id="videoSec" style="display:none">
+  <div class="section">
+    <p class="s-label will-reveal" id="videoLabel">हाम्रा भिडियोहरू • Our Videos</p>
+    <h2 class="s-title will-reveal" id="videoTitle">हेर्नुहोस् हाम्रो पसल 🎬</h2>
+    <div class="videos-grid reveal-stagger" id="videosGrid"></div>
   </div>
 </section>
 
@@ -793,15 +862,53 @@ window._saveOrderToFirestore = async function(orderData) {
 const EMBEDDED_CONFIG = {"meta":{"shopName":"सरस्वतीखेल स्मार्ट सेवा - घरायेसी","shopNameHighlight":"घरायेसी","tagline":"सुरुवात एक अटुट सम्बन्धको","location":"सरस्वतीखेल, भक्तपुर (बस्पार्कबाट मन्दिर जाने उकालो तर्फ)","badgeText":"सरस्वतीखेल","whatsappNumber":"9709612863","whatsappMessage":"Order:                      Name:                  Number:              Address:              ","address":"बस्पार्कबाट मन्दिर जाने उकालो तर्फ, सरस्वतीखेल, भक्तपुर","phone":"+977 9709612863","logoUrl":"https://raw.githubusercontent.com/SaraswotikhelSmartSewa/gharayesi/refs/heads/main/IMG_20260411_223531.png","faviconUrl":"https://raw.githubusercontent.com/SaraswotikhelSmartSewa/gharayesi/refs/heads/main/IMG_20260411_223531.png"},"theme":{"colorCream":"#fdf6ec","colorBark":"#3b2a1a","colorLeaf":"#2e7d45","colorSaffron":"#e8880a","colorMango":"#fbbf24","colorTomato":"#e03535","colorSky":"#1e9fd4","colorLavender":"#7c5cbf","colorChili":"#d14b0f","colorWhatsapp":"#25D366","bgMain":"#fdf6ec","bgHeader":"#2e7d45","bgWhy":"#3b2a1a","bgFooter":"#241809","grainOpacity":"0.04"},"fonts":{"headingFont":"Playfair Display","bodyFont":"DM Sans","monoFont":"Space Mono","headingFontUrl":"https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap","bodyFontUrl":"https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap","monoFontUrl":"https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap","bodySize":"0.8rem","useDevanagari":true,"devanagariFont":"Tiro Devanagari Hindi","devanagariUrl":"https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&display=swap"},"stats":[{"number":"8 AM","label":"दैनिक खुल्ने समय • Opens Daily"},{"number":"8 PM","label":"दैनिक बन्द हुने समय • Last Order"},{"number":"4.9★","label":"Local Rating"}],"hours":[{"day":"आईतबार - शुक्रबार","time":"8:00 AM – 8:00 PM","closed":false},{"day":"शनिबार","time":"8:00 AM – 8:00 PM","closed":false},{"day":"Dashain / Tihar","time":"Special Hours","closed":false},{"day":"Public Holidays","time":"Verify on Message or Call","closed":true}],"ticker":[{"text":"🏠घरमै बसि अर्डर गर्नको लागि ह्वाट्सएप (WhatsApp) मा सम्पर्क गर्नुहोला","color":"c1"},{"text":"Order from home via WhatsApp! 🏠","color":"c2"},{"text":"🎉 नयाँ वर्ष २०८३ को हार्दिक शुभकामना!","color":"c3"},{"text":"Happy New Year 2083 BS! 🎉","color":"c1"},{"text":"🛵 मात्र रु २५ मा घरमै डेलिभरी!","color":"c2"},{"text":"Home delivery for just Rs. 25! 🛵","color":"c3"}],"whyUs":[{"icon":"🌿","title":"ताजा उत्पादन • Fresh products","desc":"हरेक दिन ताजा ल्याइने। कोल्ड स्टोरमा नराखिएको • Daily sourced, no cold storage."},{"icon":"💬","title":"सजिलो WhatsApp अर्डर","desc":"तपाईंको अर्डर टाइप गर्नुहोस् र घरमै पाउनुहोस् । सुन्दा जति सजिलो काम पनि त्यति नै सजिलो। • Just type in your order and get them at your door."},{"icon":"⚡","title":"छिटो डेलिभरी • Quick Delivery","desc":"तपाईंको आफ्नै टोलबाट द्रुत डेलिभरी । छिटो र छरितो स्थानीय सेवा • Fast delivery from your own neighborhood."},{"icon":"🤝","title":"उचित मूल्य • Fair Prices","desc":"हाम्रो मूल्य सिधै कालिमाटीको थोक बजार भाउमा आधारित छ • Our prices are based directly on the Kalimati wholesale market rates."}],"sections":{"freshLabel":"Updated Daily","freshTitle":"आजको ताजा सूची • Today's Fresh List","freshSub":"मूल्य • Prices shown per unit.","update-note":"📌 मूल्यहरू दैनिक रूपमा अपडेट हुन्छन्। ताजापन सुनिश्चित गर्न बिहान ११ बजेभन्दा अगाडि नै अर्डर गर्नुहोला।","whyLabel":"तपाईंका छिमेकीहरूले हामीलाई किन विश्वास गर्छन् त? • Why Neighbors Trust Us","whyTitle":"हाम्रा विशेषता • Our Service","footer-brand-tagline":"सरस्वतीखेलको मुटुमा, दैनिक ताजा सामग्रीका लागि तपाईंको छिमेककै भरपर्दो पसल।","footer-note":"सरस्वतीखेल समुदायको सेवामा समर्पित 🌿"},"links":[{"icon":"📍","label":"Find Us on Map","sublabel":"","url":"https://maps.app.goo.gl/KnAvfQ67dY2ooY4f7","type":"custom","color":"lbtn-map"},{"icon":"📲","label":"Facebook","sublabel":"Message us on","url":"https://www.facebook.com/GharayesiSewa","type":"custom","color":"lbtn-blue"}],"categories":[{"id":"cat0","name":"तरकारीहरू • Vegetables","icon":"🥬","iconBg":"#2e7d45","items":[{"id":"item17764997137400.7861976682778338","name":"डल्ले आलु • Round Potato","imageUrl":"https://github.com/SaraswotikhelSmartSewa/Gharayesi/blob/main/IMG_20260411_130217.png?raw=true","badge":"sale","prices":[{"unit":"किलो • kg","price":30},{"unit":"धार्नी • Dharni","price":72}]},{"id":"item17764997137400.3767262679298883","name":"प्याज • Onion","imageUrl":"https://github.com/SaraswotikhelSmartSewa/Gharayesi/blob/main/IMG_20260411_130306.png?raw=true","badge":"sale","prices":[{"unit":"किलो • kg","price":50}]}]}],"navLinks":[{"label":"ताजा सूची • Fresh Lists","anchor":"#fresh"},{"label":"हाम्रो बाचा • Why us?","anchor":"#why"},{"label":"हाम्रो पसल • Our Store","anchor":"#findUs"},{"label":"समय • Timings","anchor":"#footer-sec"}]};
 
 /* ══ BS DATE UTILS ══ */
+/* ══ BS DATE ENGINE — Lookup-based, century-accurate ══ */
 const BS_DATA=[[30,32,31,32,31,30,30,30,29,29,30,30],[31,31,32,31,31,30,30,30,29,30,29,31],[31,31,32,32,31,30,30,30,29,30,30,30],[31,32,31,32,31,30,30,30,29,29,30,30],[30,32,31,32,31,30,30,30,29,30,29,31],[31,31,32,31,31,31,30,29,30,29,30,30],[30,31,32,32,30,31,30,29,30,29,30,30],[30,32,31,32,31,30,30,30,29,29,30,31],[31,31,31,32,31,31,29,30,30,29,30,30],[31,31,32,31,31,31,30,29,30,29,30,30],[31,31,32,32,31,30,30,29,30,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,30,29,31],[31,31,32,31,31,30,30,30,29,30,29,31],[31,31,32,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,30,29,31],[31,31,31,32,31,31,30,29,30,29,30,30],[31,31,32,31,31,31,30,29,30,29,30,30],[31,32,31,32,31,30,30,29,30,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,31],[31,31,31,32,31,31,30,29,30,29,30,30],[31,31,32,31,31,31,30,29,30,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,30,29,31],[31,31,32,31,31,30,30,30,29,30,29,31],[31,31,32,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,30,29,31],[31,31,31,32,31,31,29,30,30,29,29,31],[31,31,32,31,31,31,30,29,30,29,30,30],[31,31,32,32,31,30,30,29,30,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,31],[31,31,31,32,31,31,30,29,30,29,30,30],[31,31,32,31,31,31,30,29,30,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,30,29,31],[31,31,32,31,31,30,30,30,29,30,29,31],[31,31,32,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,30,29,31],[31,31,31,32,31,31,30,29,30,29,30,30],[31,31,32,31,31,31,30,29,30,29,30,30],[31,31,32,32,31,30,30,29,30,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,31],[31,31,31,32,31,31,29,30,30,29,30,30],[31,31,32,31,31,31,30,29,30,29,30,30],[31,32,31,32,31,30,30,29,30,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,31],[31,31,31,32,31,31,30,29,30,29,30,30],[31,31,32,31,31,31,30,29,30,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,30,29,31],[31,31,32,31,31,30,30,30,29,30,29,31],[31,31,32,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,30,29,31],[31,31,31,32,31,31,30,29,30,29,30,30],[31,31,32,31,31,31,30,29,30,29,30,30],[31,32,31,32,31,30,30,29,30,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,31],[31,31,31,32,31,31,29,30,30,29,30,30],[31,31,32,31,31,31,30,29,30,29,30,30],[31,31,32,32,31,30,30,29,30,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,31],[31,31,31,32,31,31,30,29,30,29,30,30],[31,31,32,31,31,31,30,29,30,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,30,29,31],[31,31,32,31,31,30,30,30,29,30,29,31],[31,31,32,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,30,29,31],[31,31,31,32,31,31,30,29,30,29,30,30],[31,31,32,31,31,31,30,29,30,29,30,30],[31,32,31,32,31,30,30,29,30,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,31],[31,31,31,32,31,31,29,30,30,29,30,30],[31,31,32,31,31,31,30,29,30,29,30,30],[31,31,32,32,31,30,30,29,30,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,31],[31,31,31,32,31,31,30,29,30,29,30,30],[31,31,32,31,31,31,30,29,30,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,30,29,31],[31,31,32,31,31,30,30,30,29,30,29,31],[31,31,32,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,30],[31,32,31,32,31,30,30,30,29,30,29,31],[31,31,31,32,31,31,30,29,30,29,30,30],[31,31,32,31,31,31,30,29,30,29,30,30],[31,32,31,32,31,30,30,29,30,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,31],[31,31,31,32,31,31,29,30,30,29,30,30],[31,31,32,31,31,31,30,29,30,29,30,30],[31,31,32,32,31,30,30,29,30,29,30,30],[31,32,31,32,31,30,30,30,29,29,30,31],[31,31,31,32,31,31,30,29,30,29,30,30],[31,31,32,31,31,31,30,29,30,29,30,30]];
-const BS_START=2000;const AD_REF=new Date(1943,3,14);
+const BS_START=2000;
+/* Precomputed Baisakh 1 AD dates — eliminates all cumulative drift */
+const BAISAKH1=[
+  [1943,3,14],[1944,3,13],[1945,3,13],[1946,3,14],[1947,3,13],[1948,3,13],
+  [1949,3,13],[1950,3,13],[1951,3,14],[1952,3,13],[1953,3,13],[1954,3,13],
+  [1955,3,14],[1956,3,13],[1957,3,13],[1958,3,13],[1959,3,14],[1960,3,13],
+  [1961,3,13],[1962,3,13],[1963,3,14],[1964,3,13],[1965,3,13],[1966,3,13],
+  [1967,3,13],[1968,3,13],[1969,3,13],[1970,3,13],[1971,3,13],[1972,3,13],
+  [1973,3,13],[1974,3,14],[1975,3,13],[1976,3,13],[1977,3,13],[1978,3,14],
+  [1979,3,13],[1980,3,13],[1981,3,13],[1982,3,14],[1983,3,13],[1984,3,13],
+  [1985,3,13],[1986,3,14],[1987,3,13],[1988,3,13],[1989,3,13],[1990,3,13],
+  [1991,3,13],[1992,3,13],[1993,3,13],[1994,3,13],[1995,3,13],[1996,3,13],
+  [1997,3,13],[1998,3,13],[1999,3,13],[2000,3,13],[2001,3,13],[2002,3,13],
+  [2003,3,14],[2004,3,13],[2005,3,13],[2006,3,13],[2007,3,14],[2008,3,13],
+  [2009,3,13],[2010,3,13],[2011,3,14],[2012,3,13],[2013,3,13],[2014,3,13],
+  [2015,3,14],[2016,3,13],[2017,3,13],[2018,3,13],[2019,3,14],[2020,3,13],
+  [2021,3,13],[2022,3,14],[2023,3,14],[2024,3,13],[2025,3,14],[2026,3,14],
+  [2027,3,14],[2028,3,13],[2029,3,14],[2030,3,14],[2031,3,14],[2032,3,13],
+  [2033,3,14],[2034,3,14],[2035,3,14],[2036,3,13],[2037,3,14],[2038,3,14],
+  [2039,3,14],[2040,3,13],[2041,3,13],[2042,3,14],[2043,3,14],[2044,3,14],
+  [2045,3,13],[2046,3,14],[2047,3,14],[2048,3,14],[2049,3,14]
+];
 const MNP=['बैशाख','जेष्ठ','आषाढ','श्रावण','भाद्र','आश्विन','कार्तिक','मंसिर','पौष','माघ','फाल्गुन','चैत्र'];
 const ADEN=['January','February','March','April','May','June','July','August','September','October','November','December'];
 const DNP=['आइतबार','सोमबार','मंगलबार','बुधबार','बिहिबार','शुक्रबार','शनिबार'];
 const NPD=['०','१','२','३','४','५','६','७','८','९'];
 function toNP(n){return String(n).split('').map(c=>/\d/.test(c)?NPD[+c]:c).join('')}
 function pad2(n){return String(n).padStart(2,'0')}
-function adToBS(date){try{const ref=new Date(AD_REF);const inp=new Date(date.getFullYear(),date.getMonth(),date.getDate());let diff=Math.round((inp-ref)/86400000);let yi=0;while(yi<BS_DATA.length){const yd=BS_DATA[yi].reduce((a,b)=>a+b,0);if(diff<yd)break;diff-=yd;yi++;}if(yi>=BS_DATA.length)return{y:BS_START+yi,m:0,d:1};const months=BS_DATA[yi];let mi=0;while(mi<12){if(diff<months[mi])break;diff-=months[mi];mi++;}return{y:BS_START+yi,m:mi,d:diff+1};}catch(e){return{y:2083,m:0,d:1};}}
+function adToBS(date){
+  try{
+    const inp=new Date(date.getFullYear(),date.getMonth(),date.getDate());
+    // Find BS year using precomputed Baisakh 1 lookup
+    let bsYear=BS_START, yi=0;
+    for(let i=BAISAKH1.length-1;i>=0;i--){
+      const b1=new Date(BAISAKH1[i][0],BAISAKH1[i][1],BAISAKH1[i][2]);
+      if(inp>=b1){bsYear=BS_START+i;yi=i;break;}
+    }
+    const b1=new Date(BAISAKH1[yi][0],BAISAKH1[yi][1],BAISAKH1[yi][2]);
+    let diff=Math.round((inp-b1)/86400000);
+    const months=BS_DATA[yi];
+    let mi=0;
+    while(mi<12){if(diff<months[mi])break;diff-=months[mi];mi++;}
+    return{y:bsYear,m:mi,d:diff+1};
+  }catch(e){return{y:2083,m:0,d:1};}
+}
 
 /* ══ LIVE CLOCK ══ */
 function tick(){
@@ -1093,6 +1200,8 @@ function render(cfg){
   updateCartUI();
   if(cfg.banners) renderBanners(cfg.banners);
   if(cfg.splashAds) initSplashAd(cfg.splashAds);
+  if(cfg.fonts) applyFontVars(cfg.fonts);
+  if(cfg.videos) renderVideos(cfg.videos);
   setTimeout(initScrollReveal,50);
 }
 
@@ -1137,6 +1246,9 @@ window.setFilterTab = setFilterTab;
 /* ══ REVIEWS ══ */
 let reviewRating = 5;
 const DEFAULT_REVIEWS = [
+  {name:'Sunita Shrestha', loc:'Saraswotikhel', stars:5, text:'धेरै राम्रो सेवा! ताजा तरकारी र समयमा डेलिभरी। सबैलाई सिफारिस गर्छु। • Excellent service, fresh veggies on time!'},
+  {name:'Ramesh Tamang', loc:'Bhaktapur', stars:5, text:'Prices are very fair and the WhatsApp ordering is super easy. My family orders every week!'},
+  {name:'Puja Maharjan', loc:'Saraswotikhel', stars:5, text:'घरमै बसेर अर्डर गर्न पाउँदा धेरै सजिलो भयो। मूल्य पनि उचित छ।'}
 ];
 function loadReviews(){
   const stored = JSON.parse(localStorage.getItem('gharayesi_reviews')||'[]');
@@ -1304,6 +1416,69 @@ function renderBanners(banners){
     el.classList.add('has-banner');
   });
 }
+
+/* ══ GO TO TOP ══ */
+const goTopBtn = document.getElementById('goTopBtn');
+let headerBottom = 0;
+function updateGoTop(){
+  headerBottom = headerBottom || (document.querySelector('header')?.offsetHeight||300);
+  goTopBtn?.classList.toggle('visible', window.scrollY > headerBottom);
+}
+window.addEventListener('scroll', updateGoTop, {passive:true});
+
+/* ══ FONT VARIABLES ══ */
+function applyFontVars(fonts){
+  if(!fonts) return;
+  const r = document.documentElement.style;
+  if(fonts.fsH1) r.setProperty('--fs-h1', fonts.fsH1);
+  if(fonts.fsH2) r.setProperty('--fs-h2', fonts.fsH2);
+  if(fonts.fsBody) r.setProperty('--fs-body', fonts.fsBody);
+  if(fonts.fsSmall) r.setProperty('--fs-small', fonts.fsSmall);
+  if(fonts.fsMono) r.setProperty('--fs-mono', fonts.fsMono);
+  if(fonts.fsBadge) r.setProperty('--fs-badge', fonts.fsBadge);
+  if(fonts.fsNav) r.setProperty('--fs-nav', fonts.fsNav);
+  if(fonts.fsPrice) r.setProperty('--fs-price', fonts.fsPrice);
+  if(fonts.fsCardName) r.setProperty('--fs-card-name', fonts.fsCardName);
+  if(fonts.fsFooter) r.setProperty('--fs-footer', fonts.fsFooter);
+  if(fonts.fsSectionLabel) r.setProperty('--fs-section-label', fonts.fsSectionLabel);
+  if(fonts.fsTagline) r.setProperty('--fs-tagline', fonts.fsTagline);
+  if(fonts.fsBtn) r.setProperty('--fs-btn', fonts.fsBtn);
+}
+
+/* ══ VIDEOS ══ */
+function renderVideos(videos){
+  const grid = document.getElementById('videosGrid');
+  const sec = document.getElementById('videoSec');
+  if(!grid||!sec) return;
+  const active = (videos||[]).filter(v=>v.active&&v.src);
+  if(active.length===0){sec.style.display='none';return;}
+  sec.style.display='block';
+  const vLabel = document.getElementById('videoLabel');
+  const vTitle = document.getElementById('videoTitle');
+  grid.innerHTML = active.map(v=>{
+    const ratio = v.ratio||'ratio-16-9';
+    let playerHtml = '';
+    if(v.type==='youtube'){
+      const id = v.src.match(/(?:youtu\.be\/|v=|embed\/)([^&?]+)/)?.[1]||v.src;
+      playerHtml = `<iframe class="video-wrap ${ratio}" src="https://www.youtube.com/embed/${id}?rel=0" allowfullscreen loading="lazy" style="height:${v.height||'auto'};${v.borderRadius?`border-radius:${v.borderRadius}px`:''};${v.outline?`outline:${v.outlineWidth||2}px solid ${v.outlineColor||'var(--leaf)'}`:''}" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"></iframe>`;
+    } else if(v.type==='facebook'){
+      playerHtml = `<div class="video-wrap ${ratio}">${v.src}</div>`;
+    } else if(v.type==='tiktok'){
+      const tid = v.src.match(/video\/(\d+)/)?.[1]||'';
+      playerHtml = `<div class="video-wrap ratio-9-16" style="max-width:325px;margin:0 auto${v.borderRadius?`;border-radius:${v.borderRadius}px`:''}${v.outline?`;outline:${v.outlineWidth||2}px solid ${v.outlineColor||'var(--leaf)'}`:''};overflow:hidden"><blockquote class="tiktok-embed" cite="${v.src}" data-video-id="${tid}" style="max-width:325px;min-width:325px"><section></section></blockquote><script async src="https://www.tiktok.com/embed.js"><\/script></div>`;
+    } else {
+      // Direct video file
+      playerHtml = `<div class="video-wrap ${ratio}" style="${v.borderRadius?`border-radius:${v.borderRadius}px`:''};${v.outline?`outline:${v.outlineWidth||2}px solid ${v.outlineColor||'var(--leaf)'}`:''};overflow:hidden"><video controls preload="metadata" style="width:100%;height:100%;object-fit:${v.objectFit||'contain'}" ${v.autoplay?'autoplay muted':''} ${v.loop?'loop':''}><source src="${v.src}"/></video></div>`;
+    }
+    const cardStyle = `${v.maxWidth?`max-width:${v.maxWidth}px;margin:0 auto`:''}`;
+    return `<div class="video-card will-reveal" style="${cardStyle}">
+      ${playerHtml}
+      ${v.title||v.desc?`<div class="video-card-body">${v.title?`<div class="video-card-title">${v.title}</div>`:''}${v.desc?`<div class="video-card-desc">${v.desc}</div>`:''}</div>`:''}
+    </div>`;
+  }).join('');
+  setTimeout(initScrollReveal,50);
+}
+window.renderVideos = renderVideos;
 
 render(EMBEDDED_CONFIG);
 (async()=>{try{const ctrl=new AbortController();setTimeout(()=>ctrl.abort(),4000);const res=await fetch('site-config.json?v='+Date.now(),{signal:ctrl.signal});if(!res.ok)return;const fresh=await res.json();if(JSON.stringify(fresh)!==JSON.stringify(EMBEDDED_CONFIG)){render(fresh);}}catch(e){}})();
