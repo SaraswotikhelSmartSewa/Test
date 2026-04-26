@@ -1475,7 +1475,7 @@ function renderVideos(videos){
     } else {
       playerHtml = `<div class="video-wrap ${ratio}" style="${v.borderRadius?`border-radius:${v.borderRadius}px`:''};${v.outline?`outline:${v.outlineWidth||2}px solid ${v.outlineColor||'var(--leaf)'}`:''};overflow:hidden"><video controls preload="metadata" class="fit-${v.objectFit==='cover'?'cover':'contain'}" ${v.autoplay?'autoplay muted':''} ${v.loop?'loop':''}><source src="${v.src}"/></video></div>`;
     }
-    const cardStyle = `${v.maxWidth?`max-width:${v.maxWidth}px;margin:0 auto`:''}`;
+    const cardStyle = `${v.maxWidth?`max-width:${v.maxWidth}px;margin-left:auto;margin-right:auto`:''};margin-top:${v.marginTop||0}px;margin-bottom:${v.marginBottom||0}px;padding-left:${v.paddingH||0}px;padding-right:${v.paddingH||0}px`;
     return `<div class="video-card will-reveal" style="${cardStyle}">${playerHtml}${v.title||v.desc?`<div class="video-card-body">${v.title?`<div class="video-card-title">${v.title}</div>`:''}${v.desc?`<div class="video-card-desc">${v.desc}</div>`:''}</div>`:''}</div>`;
   }
 
