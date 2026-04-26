@@ -493,12 +493,14 @@ address,.fhrow,.fbrand p{font-size:var(--fs-footer)}
 .video-card{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 4px 20px rgba(59,42,26,.08);border:1px solid rgba(59,42,26,.07);transition:transform .22s,box-shadow .22s;}
 @media(min-width:768px){.video-card:hover{transform:translateY(-4px);box-shadow:0 14px 36px rgba(59,42,26,.12)}}
 .video-wrap{position:relative;width:100%;background:#1a1a1a;overflow:hidden}
-.video-wrap video{width:100%;display:block;max-height:400px;object-fit:contain;background:#000}
-.video-wrap iframe{width:100%;border:none;display:block}
+.video-wrap video{position:absolute;inset:0;width:100%;height:100%;border:none;display:block}
+.video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none;display:block}
 .video-wrap.ratio-16-9{aspect-ratio:16/9}
-.video-wrap.ratio-9-16{aspect-ratio:9/16;max-height:500px}
+.video-wrap.ratio-9-16{aspect-ratio:9/16;max-height:600px}
 .video-wrap.ratio-1-1{aspect-ratio:1/1}
 .video-wrap.ratio-4-3{aspect-ratio:4/3}
+.video-wrap video.fit-contain{object-fit:contain;background:#000}
+.video-wrap video.fit-cover{object-fit:cover}
 .video-card-body{padding:16px 20px}
 .video-card-title{font-family:var(--font-head);font-weight:700;font-size:1rem;color:var(--bark);margin-bottom:4px}
 .video-card-desc{font-size:.82rem;color:#7a6050;line-height:1.65}
@@ -1251,9 +1253,6 @@ window.setFilterTab = setFilterTab;
 /* ══ REVIEWS ══ */
 let reviewRating = 5;
 const DEFAULT_REVIEWS = [
-  {name:'Sunita Shrestha', loc:'Saraswotikhel', stars:5, text:'धेरै राम्रो सेवा! ताजा तरकारी र समयमा डेलिभरी। सबैलाई सिफारिस गर्छु। • Excellent service, fresh veggies on time!'},
-  {name:'Ramesh Tamang', loc:'Bhaktapur', stars:5, text:'Prices are very fair and the WhatsApp ordering is super easy. My family orders every week!'},
-  {name:'Puja Maharjan', loc:'Saraswotikhel', stars:5, text:'घरमै बसेर अर्डर गर्न पाउँदा धेरै सजिलो भयो। मूल्य पनि उचित छ।'}
 ];
 function loadReviews(){
   const stored = JSON.parse(localStorage.getItem('gharayesi_reviews')||'[]');
@@ -1465,12 +1464,16 @@ function renderVideos(videos){
       const id = v.src.match(/(?:youtu\.be\/|v=|embed\/)([^&?]+)/)?.[1]||v.src;
       playerHtml = `<iframe class="video-wrap ${ratio}" src="https://www.youtube.com/embed/${id}?rel=0" allowfullscreen loading="lazy" style="height:${v.height||'auto'};${v.borderRadius?`border-radius:${v.borderRadius}px`:''};${v.outline?`outline:${v.outlineWidth||2}px solid ${v.outlineColor||'var(--leaf)'}`:''}" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"></iframe>`;
     } else if(v.type==='facebook'){
-      playerHtml = `<div class="video-wrap ${ratio}">${v.src}</div>`;
+      const ratioMap={'ratio-16-9':'56.25%','ratio-9-16':'177.78%','ratio-1-1':'100%','ratio-4-3':'75%'};
+      const pad=ratioMap[ratio]||'177.78%';
+      const fit=v.objectFit==='cover'?'cover':'contain';
+      const iframeSrc=v.src.match(/src="([^"]+)"/)?.[1]||'';
+      playerHtml=`<div style="position:relative;width:100%;padding-top:${pad};overflow:hidden;border-radius:${v.borderRadius||12}px;${v.outline?`outline:${v.outlineWidth||2}px solid ${v.outlineColor||'var(--leaf)'}`:''};background:#000"><iframe src="${iframeSrc}" allowfullscreen allow="autoplay;clipboard-write;encrypted-media;picture-in-picture;web-share" referrerpolicy="no-referrer-when-downgrade" scrolling="no" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:${fit==='cover'?'177%':'100%'};height:${fit==='cover'?'177%':'100%'};border:none;min-width:${fit==='cover'?'100%':'unset'};min-height:${fit==='cover'?'100%':'unset'}" loading="lazy"></iframe></div>`;
     } else if(v.type==='tiktok'){
       const tid = v.src.match(/video\/(\d+)/)?.[1]||'';
       playerHtml = `<div class="video-wrap ratio-9-16" style="max-width:325px;margin:0 auto${v.borderRadius?`;border-radius:${v.borderRadius}px`:''}${v.outline?`;outline:${v.outlineWidth||2}px solid ${v.outlineColor||'var(--leaf)'}`:''};overflow:hidden"><blockquote class="tiktok-embed" cite="${v.src}" data-video-id="${tid}" style="max-width:325px;min-width:325px"><section></section></blockquote><script async src="https://www.tiktok.com/embed.js"><\/script></div>`;
     } else {
-      playerHtml = `<div class="video-wrap ${ratio}" style="${v.borderRadius?`border-radius:${v.borderRadius}px`:''};${v.outline?`outline:${v.outlineWidth||2}px solid ${v.outlineColor||'var(--leaf)'}`:''};overflow:hidden"><video controls preload="metadata" style="width:100%;height:100%;object-fit:${v.objectFit||'contain'}" ${v.autoplay?'autoplay muted':''} ${v.loop?'loop':''}><source src="${v.src}"/></video></div>`;
+      playerHtml = `<div class="video-wrap ${ratio}" style="${v.borderRadius?`border-radius:${v.borderRadius}px`:''};${v.outline?`outline:${v.outlineWidth||2}px solid ${v.outlineColor||'var(--leaf)'}`:''};overflow:hidden"><video controls preload="metadata" class="fit-${v.objectFit==='cover'?'cover':'contain'}" ${v.autoplay?'autoplay muted':''} ${v.loop?'loop':''}><source src="${v.src}"/></video></div>`;
     }
     const cardStyle = `${v.maxWidth?`max-width:${v.maxWidth}px;margin:0 auto`:''}`;
     return `<div class="video-card will-reveal" style="${cardStyle}">${playerHtml}${v.title||v.desc?`<div class="video-card-body">${v.title?`<div class="video-card-title">${v.title}</div>`:''}${v.desc?`<div class="video-card-desc">${v.desc}</div>`:''}</div>`:''}</div>`;
