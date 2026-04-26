@@ -39,7 +39,20 @@
     "bodySize": "0.8rem",
     "useDevanagari": true,
     "devanagariFont": "Tiro Devanagari Hindi",
-    "devanagariUrl": "https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&display=swap"
+    "devanagariUrl": "https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&display=swap",
+    "fsH1": "clamp(2.8rem,10vw,3.8rem)",
+    "fsH2": "clamp(1.8rem,5vw,2.75rem)",
+    "fsTagline": "1.05rem",
+    "fsSectionLabel": "0.62rem",
+    "fsBody": "0.9rem",
+    "fsSmall": "0.78rem",
+    "fsMono": "0.74rem",
+    "fsBadge": "0.64rem",
+    "fsNav": "0.78rem",
+    "fsCardName": "0.95rem",
+    "fsPrice": "0.92rem",
+    "fsBtn": "0.88rem",
+    "fsFooter": "0.83rem"
   },
   "stats": [
     {
@@ -161,7 +174,7 @@
       "iconBg": "#2e7d45",
       "items": [
         {
-          "id": "item17771896333320.1092525121546527",
+          "id": "item17771898162180.03299384263913385",
           "name": "डल्ले आलु • Round Potato",
           "imageUrl": "https://github.com/SaraswotikhelSmartSewa/Gharayesi/blob/main/IMG_20260411_130217.png?raw=true",
           "badge": "sale",
@@ -173,7 +186,7 @@
           ]
         },
         {
-          "id": "item17771896333320.8448439962297938",
+          "id": "item17771898162180.7945842090834103",
           "name": "प्याज • Onion",
           "imageUrl": "https://github.com/SaraswotikhelSmartSewa/Gharayesi/blob/main/IMG_20260411_130306.png?raw=true",
           "badge": "sale",
@@ -277,7 +290,7 @@
       "active": true,
       "position": "videos-section",
       "ratio": "ratio-9-16",
-      "maxWidth": 50,
+      "maxWidth": 460,
       "borderRadius": 0,
       "outline": false,
       "outlineColor": "#2e7d45",
