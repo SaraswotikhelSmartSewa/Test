@@ -598,6 +598,7 @@ address,.fhrow,.fbrand p{font-size:var(--fs-footer)}
 
 <!-- ══ BANNER SLOT: After Ticker ══ -->
 <div class="banner-slot" id="bannerAfterTicker" style="padding:24px 24px 0"></div>
+<div data-video-position="after-ticker" style="display:none;padding:0 16px"></div>
 
 <!-- ══ FRESH LIST ══ -->
 <section id="fresh">
@@ -621,6 +622,7 @@ address,.fhrow,.fbrand p{font-size:var(--fs-footer)}
 
 <!-- ══ BANNER SLOT: After Fresh List ══ -->
 <div class="banner-slot" id="bannerAfterFresh" style="padding:0 24px 24px"></div>
+<div data-video-position="after-fresh" style="display:none;padding:0 16px"></div>
 
 <!-- ══ WHY US ══ -->
 <section id="why">
@@ -631,6 +633,7 @@ address,.fhrow,.fbrand p{font-size:var(--fs-footer)}
   </div>
 </section>
 
+<div data-video-position="after-why" style="display:none;padding:0 16px"></div>
 <!-- ══ REVIEWS ══ -->
 <section id="reviews">
   <div class="section">
@@ -646,6 +649,7 @@ address,.fhrow,.fbrand p{font-size:var(--fs-footer)}
 
 <!-- ══ BANNER SLOT: After Reviews ══ -->
 <div class="banner-slot" id="bannerAfterReviews" style="padding:0 24px 24px"></div>
+<div data-video-position="after-reviews" style="display:none;padding:0 16px"></div>
 
 <!-- ══ MAP ══ -->
 <section id="mapSec">
@@ -705,6 +709,7 @@ address,.fhrow,.fbrand p{font-size:var(--fs-footer)}
   </a>
 </div>
 
+<div data-video-position="before-footer" style="display:none;padding:0 16px"></div>
 <!-- ══ FOOTER ══ -->
 <footer id="footer-sec">
   <div class="section">
@@ -1452,10 +1457,8 @@ function renderVideos(videos){
   if(!grid||!sec) return;
   const active = (videos||[]).filter(v=>v.active&&v.src);
   if(active.length===0){sec.style.display='none';return;}
-  sec.style.display='block';
-  const vLabel = document.getElementById('videoLabel');
-  const vTitle = document.getElementById('videoTitle');
-  grid.innerHTML = active.map(v=>{
+
+  function buildCard(v){
     const ratio = v.ratio||'ratio-16-9';
     let playerHtml = '';
     if(v.type==='youtube'){
@@ -1467,15 +1470,36 @@ function renderVideos(videos){
       const tid = v.src.match(/video\/(\d+)/)?.[1]||'';
       playerHtml = `<div class="video-wrap ratio-9-16" style="max-width:325px;margin:0 auto${v.borderRadius?`;border-radius:${v.borderRadius}px`:''}${v.outline?`;outline:${v.outlineWidth||2}px solid ${v.outlineColor||'var(--leaf)'}`:''};overflow:hidden"><blockquote class="tiktok-embed" cite="${v.src}" data-video-id="${tid}" style="max-width:325px;min-width:325px"><section></section></blockquote><script async src="https://www.tiktok.com/embed.js"><\/script></div>`;
     } else {
-      // Direct video file
       playerHtml = `<div class="video-wrap ${ratio}" style="${v.borderRadius?`border-radius:${v.borderRadius}px`:''};${v.outline?`outline:${v.outlineWidth||2}px solid ${v.outlineColor||'var(--leaf)'}`:''};overflow:hidden"><video controls preload="metadata" style="width:100%;height:100%;object-fit:${v.objectFit||'contain'}" ${v.autoplay?'autoplay muted':''} ${v.loop?'loop':''}><source src="${v.src}"/></video></div>`;
     }
     const cardStyle = `${v.maxWidth?`max-width:${v.maxWidth}px;margin:0 auto`:''}`;
-    return `<div class="video-card will-reveal" style="${cardStyle}">
-      ${playerHtml}
-      ${v.title||v.desc?`<div class="video-card-body">${v.title?`<div class="video-card-title">${v.title}</div>`:''}${v.desc?`<div class="video-card-desc">${v.desc}</div>`:''}</div>`:''}
-    </div>`;
-  }).join('');
+    return `<div class="video-card will-reveal" style="${cardStyle}">${playerHtml}${v.title||v.desc?`<div class="video-card-body">${v.title?`<div class="video-card-title">${v.title}</div>`:''}${v.desc?`<div class="video-card-desc">${v.desc}</div>`:''}</div>`:''}</div>`;
+  }
+
+  // Videos for the default Videos Section
+  const sectionVideos = active.filter(v=>!v.position||v.position==='videos-section');
+  if(sectionVideos.length>0){
+    sec.style.display='block';
+    grid.innerHTML = sectionVideos.map(buildCard).join('');
+  } else {
+    sec.style.display='none';
+  }
+
+  // Videos injected into other positions
+  const positions = ['after-ticker','after-banner','after-fresh','after-why','after-reviews','before-footer'];
+  positions.forEach(pos=>{
+    const container = document.querySelector(`[data-video-position="${pos}"]`);
+    if(!container) return;
+    const posVideos = active.filter(v=>v.position===pos);
+    if(posVideos.length>0){
+      container.style.display='block';
+      container.innerHTML = `<div class="videos-grid">${posVideos.map(buildCard).join('')}</div>`;
+    } else {
+      container.innerHTML='';
+      container.style.display='none';
+    }
+  });
+
   setTimeout(initScrollReveal,50);
 }
 window.renderVideos = renderVideos;
