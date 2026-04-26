@@ -1,4 +1,4 @@
-const CACHE = 'gharayesi-v1';
+const CACHE = 'gharayesi-v2';
 const ASSETS = ['/', '/index.html', '/site-config.json', '/manifest.json'];
 
 self.addEventListener('install', e => {
