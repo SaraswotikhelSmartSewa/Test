@@ -39,20 +39,7 @@
     "bodySize": "0.8rem",
     "useDevanagari": true,
     "devanagariFont": "Tiro Devanagari Hindi",
-    "devanagariUrl": "https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&display=swap",
-    "fsH1": "clamp(2.8rem,10vw,3.8rem)",
-    "fsH2": "clamp(1.8rem,5vw,2.75rem)",
-    "fsTagline": "1.05rem",
-    "fsSectionLabel": "0.62rem",
-    "fsBody": "0.9rem",
-    "fsSmall": "0.78rem",
-    "fsMono": "0.74rem",
-    "fsBadge": "0.64rem",
-    "fsNav": "0.78rem",
-    "fsCardName": "0.95rem",
-    "fsPrice": "0.92rem",
-    "fsBtn": "0.88rem",
-    "fsFooter": "0.83rem"
+    "devanagariUrl": "https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&display=swap"
   },
   "stats": [
     {
@@ -174,7 +161,7 @@
       "iconBg": "#2e7d45",
       "items": [
         {
-          "id": "item17771823793700.447976515186956",
+          "id": "item17771839559880.7554672087464992",
           "name": "डल्ले आलु • Round Potato",
           "imageUrl": "https://github.com/SaraswotikhelSmartSewa/Gharayesi/blob/main/IMG_20260411_130217.png?raw=true",
           "badge": "sale",
@@ -186,7 +173,7 @@
           ]
         },
         {
-          "id": "item17771823793700.14828392229443843",
+          "id": "item17771839559880.22056357727064202",
           "name": "प्याज • Onion",
           "imageUrl": "https://github.com/SaraswotikhelSmartSewa/Gharayesi/blob/main/IMG_20260411_130306.png?raw=true",
           "badge": "sale",
@@ -226,11 +213,11 @@
   },
   "splashAds": [
     {
-      "imageUrl": "",
+      "imageUrl": "https://github.com/SaraswotikhelSmartSewa/gharayesi/blob/main/Delivery%20with%20text.png?raw=true",
       "linkUrl": "",
       "label": "Advertisement",
-      "duration": 5,
-      "active": false
+      "duration": 3,
+      "active": true
     }
   ],
   "banners": [
@@ -284,10 +271,11 @@
   "videos": [
     {
       "type": "facebook",
-      "src": "<iframe src=\"https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1625694995382501%2F&show_text=true&width=261&t=0\" width=\"261\" height=\"591\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share; cross-origin-isolated\" allowFullScreen=\"true\" referrerpolicy=\"no-referrer-when-downgrade\"></iframe>",
+      "src": "<iframe src=\"https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1625694995382501%2F&show_text=true&width=261&t=0\" width=\"261\" height=\"591\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\" allowFullScreen=\"true\"></iframe>",
       "title": "",
       "desc": "",
-      "active": true,
+      "active": false,
+      "position": "after-reviews",
       "ratio": "ratio-9-16",
       "maxWidth": 0,
       "borderRadius": 12,
