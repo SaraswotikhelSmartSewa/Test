@@ -284,7 +284,7 @@
   "videos": [
     {
       "type": "youtube",
-      "src": "<iframe src=\"https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1625694995382501%2F&show_text=true&width=261&t=0\" width=\"261\" height=\"591\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\" allowFullScreen=\"true\"></iframe>",
+      "src": "<iframe width="356" height="634" src="https://www.youtube.com/embed/wudx2oH6Gvk" title="April 26, 2026" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>",
       "title": "",
       "desc": "",
       "active": true,
