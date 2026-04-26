@@ -39,20 +39,7 @@
     "bodySize": "0.8rem",
     "useDevanagari": true,
     "devanagariFont": "Tiro Devanagari Hindi",
-    "devanagariUrl": "https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&display=swap",
-    "fsH1": "clamp(2.8rem,10vw,3.8rem)",
-    "fsH2": "clamp(1.8rem,5vw,2.75rem)",
-    "fsTagline": "1.05rem",
-    "fsSectionLabel": "0.62rem",
-    "fsBody": "0.9rem",
-    "fsSmall": "0.78rem",
-    "fsMono": "0.74rem",
-    "fsBadge": "0.64rem",
-    "fsNav": "0.78rem",
-    "fsCardName": "0.95rem",
-    "fsPrice": "0.92rem",
-    "fsBtn": "0.88rem",
-    "fsFooter": "0.83rem"
+    "devanagariUrl": "https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&display=swap"
   },
   "stats": [
     {
@@ -174,7 +161,7 @@
       "iconBg": "#2e7d45",
       "items": [
         {
-          "id": "item17771846004630.7207349173576892",
+          "id": "item17771867580820.7410453917470867",
           "name": "डल्ले आलु • Round Potato",
           "imageUrl": "https://github.com/SaraswotikhelSmartSewa/Gharayesi/blob/main/IMG_20260411_130217.png?raw=true",
           "badge": "sale",
@@ -186,7 +173,7 @@
           ]
         },
         {
-          "id": "item17771846004630.929679134233166",
+          "id": "item17771867580820.37371749889030026",
           "name": "प्याज • Onion",
           "imageUrl": "https://github.com/SaraswotikhelSmartSewa/Gharayesi/blob/main/IMG_20260411_130306.png?raw=true",
           "badge": "sale",
@@ -287,13 +274,14 @@
       "src": "<iframe src=\"https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1625694995382501%2F&show_text=true&width=261&t=0\" width=\"261\" height=\"591\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\" allowFullScreen=\"true\"></iframe>",
       "title": "",
       "desc": "",
-      "active": true,
-      "ratio": "ratio-4-3",
+      "active": false,
+      "position": "videos-section",
+      "ratio": "ratio-9-16",
       "maxWidth": 0,
       "borderRadius": 0,
       "outline": false,
       "outlineColor": "#2e7d45",
-      "outlineWidth": 2,
+      "outlineWidth": 1,
       "objectFit": "contain",
       "autoplay": false,
       "loop": false
