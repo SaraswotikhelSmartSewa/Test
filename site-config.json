@@ -39,7 +39,20 @@
     "bodySize": "0.8rem",
     "useDevanagari": true,
     "devanagariFont": "Tiro Devanagari Hindi",
-    "devanagariUrl": "https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&display=swap"
+    "devanagariUrl": "https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi:ital@0;1&display=swap",
+    "fsH1": "clamp(2.8rem,10vw,3.8rem)",
+    "fsH2": "clamp(1.8rem,5vw,2.75rem)",
+    "fsTagline": "1.05rem",
+    "fsSectionLabel": "0.62rem",
+    "fsBody": "0.9rem",
+    "fsSmall": "0.78rem",
+    "fsMono": "0.74rem",
+    "fsBadge": "0.64rem",
+    "fsNav": "0.78rem",
+    "fsCardName": "0.95rem",
+    "fsPrice": "0.92rem",
+    "fsBtn": "0.88rem",
+    "fsFooter": "0.83rem"
   },
   "stats": [
     {
@@ -161,7 +174,7 @@
       "iconBg": "#2e7d45",
       "items": [
         {
-          "id": "item17770846393970.8998099460237335",
+          "id": "item17771806756050.3485463140898528",
           "name": "डल्ले आलु • Round Potato",
           "imageUrl": "https://github.com/SaraswotikhelSmartSewa/Gharayesi/blob/main/IMG_20260411_130217.png?raw=true",
           "badge": "sale",
@@ -173,7 +186,7 @@
           ]
         },
         {
-          "id": "item17770846393970.08325321433522104",
+          "id": "item17771806756050.11021873233637791",
           "name": "प्याज • Onion",
           "imageUrl": "https://github.com/SaraswotikhelSmartSewa/Gharayesi/blob/main/IMG_20260411_130306.png?raw=true",
           "badge": "sale",
@@ -213,11 +226,11 @@
   },
   "splashAds": [
     {
-      "imageUrl": "https://github.com/SaraswotikhelSmartSewa/gharayesi/blob/main/Delivery%20with%20text.png?raw=true",
+      "imageUrl": "",
       "linkUrl": "",
       "label": "Advertisement",
-      "duration": 3,
-      "active": true
+      "duration": 5,
+      "active": false
     }
   ],
   "banners": [
@@ -266,6 +279,24 @@
       "objectFit": "cover",
       "shadow": true,
       "bgColor": ""
+    }
+  ],
+  "videos": [
+    {
+      "type": "facebook",
+      "src": "https://www.facebook.com/share/r/1Rj4L1eNKT/",
+      "title": "",
+      "desc": "",
+      "active": true,
+      "ratio": "ratio-9-16",
+      "maxWidth": 0,
+      "borderRadius": 12,
+      "outline": true,
+      "outlineColor": "#2e7d45",
+      "outlineWidth": 2,
+      "objectFit": "contain",
+      "autoplay": false,
+      "loop": false
     }
   ]
 }
