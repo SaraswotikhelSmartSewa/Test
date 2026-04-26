@@ -161,7 +161,7 @@
       "iconBg": "#2e7d45",
       "items": [
         {
-          "id": "item17771894407580.4775287525186578",
+          "id": "item17771896333320.1092525121546527",
           "name": "डल्ले आलु • Round Potato",
           "imageUrl": "https://github.com/SaraswotikhelSmartSewa/Gharayesi/blob/main/IMG_20260411_130217.png?raw=true",
           "badge": "sale",
@@ -173,7 +173,7 @@
           ]
         },
         {
-          "id": "item17771894407580.25673329734541084",
+          "id": "item17771896333320.8448439962297938",
           "name": "प्याज • Onion",
           "imageUrl": "https://github.com/SaraswotikhelSmartSewa/Gharayesi/blob/main/IMG_20260411_130306.png?raw=true",
           "badge": "sale",
@@ -274,7 +274,7 @@
       "src": "<iframe src=\"https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1625694995382501%2F&show_text=true&width=261&t=0\" width=\"261\" height=\"591\" style=\"border:none;overflow:hidden\" scrolling=\"no\" frameborder=\"0\" allowfullscreen=\"true\" allow=\"autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share\" allowFullScreen=\"true\"></iframe>",
       "title": "",
       "desc": "",
-      "active": false,
+      "active": true,
       "position": "videos-section",
       "ratio": "ratio-9-16",
       "maxWidth": 50,
