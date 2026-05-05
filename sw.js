@@ -1,5 +1,5 @@
 const CACHE = 'gharayesi-v2';
-const ASSETS = ['/', '/index.html', '/site-config.json', '/manifest.json'];
+const ASSETS = ['/Test/', '/Test/index.html', '/Test/site-config.json', '/Test/manifest.json'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).catch(()=>{}));
