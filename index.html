@@ -288,17 +288,105 @@ header{background:var(--leaf);position:relative;overflow:hidden}
 .lang-opt{padding:5px 13px;border-radius:999px;font-size:.67rem;font-weight:700;transition:all .15s;color:rgba(59,42,26,.42);letter-spacing:.05em}
 .lang-opt.active{background:var(--leaf);color:#fff;box-shadow:0 2px 8px rgba(46,125,69,.28)}
 
-/* ══ PWA INSTALL BANNER ══ */
-.pwa-banner{display:none;position:fixed;bottom:80px;left:14px;right:14px;z-index:450;background:var(--bark);color:#fff;border-radius:20px;padding:18px 22px;box-shadow:0 12px 40px rgba(0,0,0,.38);align-items:center;gap:14px;animation:slideUp .4s var(--ease-bounce);}
-@media(min-width:768px){.pwa-banner{left:auto;right:30px;bottom:110px;width:320px}}
-.pwa-banner.show{display:flex}
-.pwa-banner-icon{font-size:1.8rem;flex-shrink:0}
-.pwa-banner-text{flex:1}
-.pwa-banner-text strong{display:block;font-size:.9rem;margin-bottom:3px}
-.pwa-banner-text span{font-size:.74rem;opacity:.55}
-.pwa-install-btn{background:var(--leaf);color:#fff;border:none;border-radius:11px;padding:9px 18px;font-weight:700;font-size:.78rem;cursor:pointer;white-space:nowrap;transition:background .15s;box-shadow:0 3px 12px rgba(46,125,69,.3);}
-.pwa-install-btn:hover{background:#246038}
-.pwa-dismiss{background:none;border:none;color:rgba(255,255,255,.35);cursor:pointer;font-size:1.1rem;padding:2px 6px;}
+/* ══ PWA INSTALL PROMPT ══ */
+@keyframes pwaSlideUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pwaFadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pwaShake{0%,100%{transform:rotate(0)}20%{transform:rotate(-8deg)}40%{transform:rotate(8deg)}60%{transform:rotate(-4deg)}80%{transform:rotate(4deg)}}
+
+/* Overlay backdrop */
+.pwa-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:8500;opacity:0;pointer-events:none;transition:opacity .35s;backdrop-filter:blur(6px);}
+.pwa-overlay.open{opacity:1;pointer-events:all;animation:pwaFadeIn .35s ease}
+
+/* Main card */
+.pwa-card{
+  position:fixed;bottom:0;left:0;right:0;z-index:8600;
+  background:#fff;
+  border-radius:28px 28px 0 0;
+  padding:0 0 calc(env(safe-area-inset-bottom) + 20px);
+  box-shadow:0 -8px 48px rgba(0,0,0,.22);
+  transform:translateY(100%);
+  transition:transform .4s cubic-bezier(.34,1.26,.64,1);
+  max-height:92vh;
+  overflow-y:auto;
+}
+@media(min-width:768px){
+  .pwa-card{
+    left:50%;right:auto;bottom:28px;
+    transform:translateX(-50%) translateY(60px);
+    width:420px;
+    border-radius:28px;
+    transition:transform .4s cubic-bezier(.34,1.26,.64,1),opacity .35s;
+    opacity:0;
+  }
+}
+.pwa-overlay.open .pwa-card{
+  transform:translateY(0);
+}
+@media(min-width:768px){
+  .pwa-overlay.open .pwa-card{
+    transform:translateX(-50%) translateY(0);
+    opacity:1;
+  }
+}
+
+/* Card handle bar */
+.pwa-handle{width:44px;height:5px;background:rgba(0,0,0,.1);border-radius:99px;margin:14px auto 0;}
+
+/* Card content */
+.pwa-inner{padding:24px 28px 8px;}
+
+/* App identity row */
+.pwa-app-row{display:flex;align-items:center;gap:16px;margin-bottom:22px;}
+.pwa-app-icon{width:64px;height:64px;border-radius:18px;object-fit:contain;background:var(--leaf);flex-shrink:0;box-shadow:0 6px 20px rgba(46,125,69,.35);}
+.pwa-app-info{}
+.pwa-app-name{font-family:var(--font-head);font-weight:900;font-size:1.15rem;color:var(--bark);line-height:1.15}
+.pwa-app-name span{color:var(--leaf)}
+.pwa-app-sub{font-size:.78rem;color:rgba(59,42,26,.45);margin-top:3px}
+
+/* Benefits list */
+.pwa-benefits{display:flex;flex-direction:column;gap:10px;margin-bottom:24px;}
+.pwa-benefit{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:rgba(46,125,69,.05);border-radius:14px;border:1px solid rgba(46,125,69,.1);}
+.pwa-benefit-icon{font-size:1.3rem;flex-shrink:0;line-height:1;margin-top:1px}
+.pwa-benefit-text{}
+.pwa-benefit-title{font-weight:700;font-size:.86rem;color:var(--bark);line-height:1.3}
+.pwa-benefit-desc{font-size:.76rem;color:rgba(59,42,26,.52);margin-top:2px;line-height:1.5}
+
+/* Install button */
+.pwa-install-btn{
+  width:100%;background:linear-gradient(135deg,var(--leaf),#246038);
+  color:#fff;border:none;border-radius:16px;
+  padding:16px 20px;font-weight:700;font-size:1rem;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;
+  box-shadow:0 6px 20px rgba(46,125,69,.4);
+  transition:transform .15s,box-shadow .15s;
+  letter-spacing:.01em;
+  margin-bottom:10px;
+}
+.pwa-install-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(46,125,69,.5)}
+.pwa-install-btn:active{transform:scale(.97)}
+.pwa-install-btn svg{width:20px;height:20px;fill:#fff}
+.pwa-install-icon{font-size:1.2rem;animation:pwaShake 2s ease 1s infinite}
+
+/* Later / dismiss */
+.pwa-later{width:100%;background:none;border:none;color:rgba(59,42,26,.4);font-size:.84rem;padding:10px;cursor:pointer;text-align:center;transition:color .15s;}
+.pwa-later:hover{color:rgba(59,42,26,.7)}
+
+/* iOS instructions panel */
+.pwa-ios-steps{display:none;margin-bottom:12px;}
+.pwa-ios-steps.show{display:block}
+.pwa-ios-title{font-weight:700;font-size:.88rem;color:var(--bark);margin-bottom:12px;text-align:center;}
+.pwa-ios-step{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid rgba(59,42,26,.07);}
+.pwa-ios-step:last-child{border-bottom:none}
+.pwa-ios-num{width:24px;height:24px;border-radius:50%;background:var(--leaf);color:#fff;font-size:.7rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.pwa-ios-text{font-size:.82rem;color:var(--bark);line-height:1.55}
+.pwa-ios-text strong{color:var(--leaf)}
+.pwa-ios-arrow{display:inline-block;margin:0 4px;font-size:1rem}
+
+/* Desktop tip */
+.pwa-desktop-tip{background:rgba(30,159,212,.07);border:1px solid rgba(30,159,212,.18);border-radius:14px;padding:14px;margin-bottom:12px;display:none;}
+.pwa-desktop-tip.show{display:block}
+.pwa-desktop-tip-title{font-weight:700;font-size:.86rem;color:var(--sky);margin-bottom:6px}
+.pwa-desktop-tip p{font-size:.8rem;color:rgba(59,42,26,.65);line-height:1.65}
 
 /* ══ WHY US ══ */
 #why{background:var(--bark)}
@@ -489,24 +577,79 @@ address,.fhrow,.fbrand p{font-size:var(--fs-footer)}
 .add-btn,.of-send,.checkout-btn,.of-cancel,.rf-submit,.rf-cancel{font-size:var(--fs-btn)}
 .rcard-text,.wdesc{font-size:var(--fs-small)}
 
-/* ══ VIDEO SECTION ══ */
+/* ══ VIDEO LAYOUT ENGINE ══ */
 #videoSec{background:var(--cream)}
-.videos-grid{display:grid;gap:20px;margin-top:32px;grid-template-columns:1fr}
-@media(min-width:768px){.videos-grid{grid-template-columns:repeat(2,1fr);gap:28px}}
-.video-card{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 4px 20px rgba(59,42,26,.08);border:1px solid rgba(59,42,26,.07);transition:transform .22s,box-shadow .22s;}
-@media(min-width:768px){.video-card:hover{transform:translateY(-4px);box-shadow:0 14px 36px rgba(59,42,26,.12)}}
-.video-wrap{position:relative;width:100%;background:#1a1a1a;overflow:hidden}
-.video-wrap video{position:absolute;inset:0;width:100%;height:100%;border:none;display:block}
-.video-wrap iframe{position:absolute;inset:0;width:100%;height:100%;border:none;display:block}
-.video-wrap.ratio-16-9{aspect-ratio:16/9}
-.video-wrap.ratio-9-16{aspect-ratio:9/16;max-height:600px}
-.video-wrap.ratio-1-1{aspect-ratio:1/1}
-.video-wrap.ratio-4-3{aspect-ratio:4/3}
-.video-wrap video.fit-contain{object-fit:contain;background:#000}
-.video-wrap video.fit-cover{object-fit:cover}
-.video-card-body{padding:16px 20px}
-.video-card-title{font-family:var(--font-head);font-weight:700;font-size:1rem;color:var(--bark);margin-bottom:4px}
-.video-card-desc{font-size:.82rem;color:#7a6050;line-height:1.65}
+
+/* The video canvas — uses CSS grid that auto-flows */
+.vcanvas{
+  display:grid;
+  gap:var(--vgap,16px);
+  margin-top:28px;
+  /* Auto columns: each video declares its own column span */
+  grid-template-columns:repeat(var(--vcols,12),1fr);
+  align-items:start;
+}
+@media(max-width:767px){
+  .vcanvas{
+    grid-template-columns:1fr!important;
+    --vgap:12px;
+  }
+  .vitem{
+    grid-column:1/-1!important;
+    max-width:100%!important;
+  }
+}
+
+/* Each video item */
+.vitem{
+  position:relative;
+  overflow:hidden;
+  background:#fff;
+  border-radius:var(--vradius,16px);
+  box-shadow:0 4px 20px rgba(59,42,26,.08);
+  border:1px solid rgba(59,42,26,.07);
+  transition:transform .22s,box-shadow .22s;
+  /* Column span set inline per video */
+}
+@media(min-width:768px){
+  .vitem:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(59,42,26,.12)}
+}
+
+/* Video player container — preserves aspect ratio */
+.vplayer{
+  position:relative;
+  width:100%;
+  overflow:hidden;
+  background:#1a1a1a;
+}
+.vplayer iframe,.vplayer video{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:none;
+  display:block;
+}
+.vplayer video.fit-contain{object-fit:contain;background:#000}
+.vplayer video.fit-cover{object-fit:cover}
+
+/* Aspect ratio helpers */
+.vr-16-9{aspect-ratio:16/9}
+.vr-9-16{aspect-ratio:9/16}
+.vr-1-1{aspect-ratio:1/1}
+.vr-4-3{aspect-ratio:4/3}
+.vr-21-9{aspect-ratio:21/9}
+.vr-free{} /* height set inline */
+
+/* Caption */
+.vcaption{padding:14px 18px}
+.vcaption-title{font-family:var(--font-head);font-weight:700;font-size:1rem;color:var(--bark);margin-bottom:3px}
+.vcaption-desc{font-size:.82rem;color:#7a6050;line-height:1.65}
+
+/* Inline video slots (positions other than section) */
+.video-slot{display:none;padding:0}
+.video-slot.has-videos{display:block}
+.video-slot .vcanvas{margin-top:0}
 </style>
 </head>
 <body>
@@ -603,6 +746,7 @@ address,.fhrow,.fbrand p{font-size:var(--fs-footer)}
 
 <!-- ══ BANNER SLOT: After Ticker ══ -->
 <div class="banner-slot" id="bannerAfterTicker" style="padding:24px 24px 0"></div>
+<div class="video-slot" id="vslot-after-ticker" data-video-position="after-ticker"><div class="section" style="padding-top:24px;padding-bottom:0"><div class="vcanvas" id="vgrid-after-ticker"></div></div></div>
 <div data-video-position="after-ticker" style="display:none;padding:0 16px"></div>
 
 <!-- ══ FRESH LIST ══ -->
@@ -627,6 +771,7 @@ address,.fhrow,.fbrand p{font-size:var(--fs-footer)}
 
 <!-- ══ BANNER SLOT: After Fresh List ══ -->
 <div class="banner-slot" id="bannerAfterFresh" style="padding:0 24px 24px"></div>
+<div class="video-slot" id="vslot-after-fresh" data-video-position="after-fresh"><div class="section" style="padding-top:0;padding-bottom:24px"><div class="vcanvas" id="vgrid-after-fresh"></div></div></div>
 <div data-video-position="after-fresh" style="display:none;padding:0 16px"></div>
 
 <!-- ══ WHY US ══ -->
@@ -654,6 +799,7 @@ address,.fhrow,.fbrand p{font-size:var(--fs-footer)}
 
 <!-- ══ BANNER SLOT: After Reviews ══ -->
 <div class="banner-slot" id="bannerAfterReviews" style="padding:0 24px 24px"></div>
+<div class="video-slot" id="vslot-after-reviews" data-video-position="after-reviews"><div class="section" style="padding-top:0;padding-bottom:24px"><div class="vcanvas" id="vgrid-after-reviews"></div></div></div>
 <div data-video-position="after-reviews" style="display:none;padding:0 16px"></div>
 
 <!-- ══ MAP ══ -->
@@ -680,9 +826,10 @@ address,.fhrow,.fbrand p{font-size:var(--fs-footer)}
   <div class="section">
     <p class="s-label will-reveal" id="videoLabel">हाम्रा भिडियोहरू • Our Videos</p>
     <h2 class="s-title will-reveal" id="videoTitle">हेर्नुहोस् हाम्रो पसल 🎬</h2>
-    <div class="videos-grid reveal-stagger" id="videosGrid"></div>
+    <div class="vcanvas" id="videosGrid"></div>
   </div>
 </section>
+<div class="video-slot" id="vslot-after-why" data-video-position="after-why" style="background:var(--bark)"><div class="section" style="padding-top:28px;padding-bottom:28px"><div class="vcanvas" id="vgrid-after-why"></div></div></div>
 
 <!-- ══ FIND US ══ -->
 <section id="findUs">
@@ -740,15 +887,86 @@ address,.fhrow,.fbrand p{font-size:var(--fs-footer)}
   </div>
 </footer>
 
-<!-- ══ PWA INSTALL BANNER ══ -->
-<div class="pwa-banner" id="pwaBanner">
-  <div class="pwa-banner-icon">📲</div>
-  <div class="pwa-banner-text">
-    <strong>Install Gharayesi App</strong>
-    <span>Order faster from your home screen</span>
+<!-- ══ PWA INSTALL PROMPT ══ -->
+<div class="pwa-overlay" id="pwaOverlay" onclick="handlePwaOverlayClick(event)">
+  <div class="pwa-card" id="pwaCard">
+    <div class="pwa-handle"></div>
+    <div class="pwa-inner">
+
+      <!-- App identity -->
+      <div class="pwa-app-row">
+        <img class="pwa-app-icon" id="pwaAppIcon" src="" alt="App Icon"/>
+        <div class="pwa-app-info">
+          <div class="pwa-app-name">घरायेसी<span> App</span></div>
+          <div class="pwa-app-sub">सरस्वतीखेल स्मार्ट सेवा • Free to install</div>
+        </div>
+      </div>
+
+      <!-- Benefits -->
+      <div class="pwa-benefits">
+        <div class="pwa-benefit">
+          <div class="pwa-benefit-icon">⚡</div>
+          <div class="pwa-benefit-text">
+            <div class="pwa-benefit-title">छिटो खुल्छ • Opens instantly</div>
+            <div class="pwa-benefit-desc">No browser needed — opens like any other app on your phone</div>
+          </div>
+        </div>
+        <div class="pwa-benefit">
+          <div class="pwa-benefit-icon">📴</div>
+          <div class="pwa-benefit-text">
+            <div class="pwa-benefit-title">Offline पनि काम गर्छ • Works offline</div>
+            <div class="pwa-benefit-desc">Browse products and menu even without internet</div>
+          </div>
+        </div>
+        <div class="pwa-benefit">
+          <div class="pwa-benefit-icon">🛒</div>
+          <div class="pwa-benefit-text">
+            <div class="pwa-benefit-title">सजिलो अर्डर • Easy ordering</div>
+            <div class="pwa-benefit-desc">One tap from your home screen to order fresh vegetables</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- iOS step-by-step -->
+      <div class="pwa-ios-steps" id="pwaIosSteps">
+        <div class="pwa-ios-title">📱 iPhone मा Install गर्न • How to install on iPhone</div>
+        <div class="pwa-ios-step">
+          <div class="pwa-ios-num">1</div>
+          <div class="pwa-ios-text">तल <strong>Share button</strong> थिच्नुहोस् <strong>⬆</strong> (Safari को तल्लो बारमा)</div>
+        </div>
+        <div class="pwa-ios-step">
+          <div class="pwa-ios-num">2</div>
+          <div class="pwa-ios-text">Scroll गर्नुहोस् र <strong>"Add to Home Screen"</strong> छान्नुहोस् <strong>＋</strong></div>
+        </div>
+        <div class="pwa-ios-step">
+          <div class="pwa-ios-num">3</div>
+          <div class="pwa-ios-text">माथि <strong>"Add"</strong> थिच्नुहोस् — Done! 🎉</div>
+        </div>
+      </div>
+
+      <!-- Desktop tip -->
+      <div class="pwa-desktop-tip" id="pwaDesktopTip">
+        <div class="pwa-desktop-tip-title">💻 Desktop मा Install गर्न</div>
+        <p>Address bar को दायाँतिर <strong>⊕ Install</strong> icon देखिन्छ — त्यो थिच्नुहोस्। अथवा browser menu → <strong>"Install Gharayesi App"</strong> छान्नुहोस्।</p>
+      </div>
+
+      <!-- CTA button — Android/Desktop -->
+      <button class="pwa-install-btn" id="pwaInstallBtn" style="display:none">
+        <span class="pwa-install-icon">📲</span>
+        Install गर्नुहोस् — It's Free!
+      </button>
+
+      <!-- iOS open in Safari hint -->
+      <button class="pwa-install-btn" id="pwaOpenSafariBtn" style="display:none;background:linear-gradient(135deg,#007aff,#0056cc)">
+        <span>🧭</span>
+        Safari मा खोल्नुहोस् • Open in Safari
+      </button>
+
+      <button class="pwa-later" onclick="dismissPWA()">
+        पछि गर्छु • Maybe later
+      </button>
+    </div>
   </div>
-  <button class="pwa-install-btn" id="pwaInstallBtn">Install</button>
-  <button class="pwa-dismiss" onclick="dismissPWA()">✕</button>
 </div>
 
 <!-- ══ REVIEW FORM ══ -->
@@ -1343,25 +1561,109 @@ window.toggleLang = function(){
   if(wt) wt.textContent = LANG.whyTitle[currentLang];
 }
 
-/* ══ PWA ══ */
+/* ══ PWA INSTALL PROMPT — Smart multi-platform ══ */
 let deferredPrompt = null;
+let pwaShown = false;
+
+function detectPlatform(){
+  const ua = navigator.userAgent;
+  const isIOS = /iphone|ipad|ipod/i.test(ua);
+  const isSafari = /safari/i.test(ua) && !/chrome|crios|fxios/i.test(ua);
+  const isAndroid = /android/i.test(ua);
+  const isChrome = /chrome|crios/i.test(ua) && !/edge/i.test(ua);
+  const isDesktop = !/mobi|android|iphone|ipad|ipod/i.test(ua);
+  const isInStandalone = window.matchMedia('(display-mode:standalone)').matches || window.navigator.standalone;
+  return {isIOS,isSafari,isAndroid,isChrome,isDesktop,isInStandalone};
+}
+
+function openPWAPrompt(){
+  if(pwaShown) return;
+  const already = localStorage.getItem('pwaInstalled')||localStorage.getItem('pwaDismissed');
+  if(already) return;
+  const p = detectPlatform();
+  if(p.isInStandalone) return; // Already installed
+
+  pwaShown = true;
+  const overlay = document.getElementById('pwaOverlay');
+  const installBtn = document.getElementById('pwaInstallBtn');
+  const safariBtn = document.getElementById('pwaOpenSafariBtn');
+  const iosSteps = document.getElementById('pwaIosSteps');
+  const desktopTip = document.getElementById('pwaDesktopTip');
+  const icon = document.getElementById('pwaAppIcon');
+
+  // Set app icon from config
+  if(siteConfig?.meta?.logoUrl && icon) icon.src = siteConfig.meta.logoUrl;
+
+  if(p.isIOS && !p.isSafari){
+    // iOS but not Safari (Chrome/Firefox on iOS) — can't install, show open in Safari tip
+    safariBtn.style.display = 'flex';
+    safariBtn.onclick = ()=>{ window.location.href = window.location.href; };
+    iosSteps.classList.add('show');
+  } else if(p.isIOS && p.isSafari){
+    // iOS Safari — show manual steps
+    iosSteps.classList.add('show');
+  } else if(deferredPrompt){
+    // Android Chrome or Desktop Chrome — native prompt available
+    installBtn.style.display = 'flex';
+  } else if(p.isDesktop){
+    // Desktop without prompt yet — show tip
+    desktopTip.classList.add('show');
+  } else {
+    // Android but prompt not fired yet — show tip and wait
+    installBtn.style.display = 'flex';
+    installBtn.textContent = '📲 Add to Home Screen';
+  }
+
+  overlay.classList.add('open');
+}
+
+window.handlePwaOverlayClick = function(e){
+  // Close if clicking the backdrop (not the card)
+  if(e.target === document.getElementById('pwaOverlay')) dismissPWA();
+}
+
+window.dismissPWA = function(){
+  document.getElementById('pwaOverlay').classList.remove('open');
+  localStorage.setItem('pwaDismissed', Date.now());
+}
+
+// Capture the install prompt (Android/Desktop Chrome)
 window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault();
   deferredPrompt = e;
-  const banner = document.getElementById('pwaBanner');
-  if(banner && !localStorage.getItem('pwaDismissed')) banner.classList.add('show');
+  // If prompt is already shown, update the button
+  const btn = document.getElementById('pwaInstallBtn');
+  if(btn) btn.style.display = 'flex';
 });
+
+// Handle install button click
 document.getElementById('pwaInstallBtn')?.addEventListener('click', async () => {
-  if(!deferredPrompt) return;
-  deferredPrompt.prompt();
-  const { outcome } = await deferredPrompt.userChoice;
-  deferredPrompt = null;
-  document.getElementById('pwaBanner').classList.remove('show');
+  if(deferredPrompt){
+    deferredPrompt.prompt();
+    const {outcome} = await deferredPrompt.userChoice;
+    deferredPrompt = null;
+    if(outcome === 'accepted'){
+      localStorage.setItem('pwaInstalled','1');
+      dismissPWA();
+    }
+  }
 });
-window.dismissPWA = function(){
-  document.getElementById('pwaBanner').classList.remove('show');
-  localStorage.setItem('pwaDismissed','1');
-}
+
+// App installed event
+window.addEventListener('appinstalled', () => {
+  localStorage.setItem('pwaInstalled','1');
+  dismissPWA();
+});
+
+// Show the prompt after 4 seconds — enough time to see the site first
+setTimeout(()=>{
+  // Only show if not dismissed in last 3 days
+  const dismissed = parseInt(localStorage.getItem('pwaDismissed')||'0');
+  const threeDays = 3*24*60*60*1000;
+  if(!localStorage.getItem('pwaInstalled') && (Date.now()-dismissed > threeDays)){
+    openPWAPrompt();
+  }
+}, 4000);
 
 /* ══ SPLASH AD ══ */
 let splashInterval = null;
@@ -1477,63 +1779,105 @@ function applyFontVars(fonts){
   if(fonts.fsBtn) r.setProperty('--fs-btn', fonts.fsBtn);
 }
 
-/* ══ VIDEOS ══ */
+/* ══ VIDEO LAYOUT ENGINE ══ */
 function renderVideos(videos){
-  const grid = document.getElementById('videosGrid');
-  const sec = document.getElementById('videoSec');
-  if(!grid||!sec) return;
-  const active = (videos||[]).filter(v=>v.active&&v.src);
-  if(active.length===0){sec.style.display='none';return;}
+  // All slots to clear first
+  const ALL_SLOTS = {
+    'videos-section': {gridId:'videosGrid', secId:'videoSec'},
+    'after-ticker':   {slotId:'vslot-after-ticker',   gridId:'vgrid-after-ticker'},
+    'after-fresh':    {slotId:'vslot-after-fresh',    gridId:'vgrid-after-fresh'},
+    'after-reviews':  {slotId:'vslot-after-reviews',  gridId:'vgrid-after-reviews'},
+    'after-why':      {slotId:'vslot-after-why',      gridId:'vgrid-after-why'},
+  };
 
-  function buildCard(v){
+  // Clear all
+  Object.values(ALL_SLOTS).forEach(s=>{
+    const g=document.getElementById(s.gridId);if(g)g.innerHTML='';
+    if(s.slotId){const sl=document.getElementById(s.slotId);if(sl)sl.classList.remove('has-videos');sl&&(sl.style.display='none');}
+    if(s.secId){const sec=document.getElementById(s.secId);if(sec)sec.style.display='none';}
+  });
+
+  const active=(videos||[]).filter(v=>v.active&&v.src);
+  if(!active.length) return;
+
+  // Build player HTML for a video
+  function buildPlayer(v){
     const ratio = v.ratio||'ratio-16-9';
-    let playerHtml = '';
+    const ratioClass = 'vr-'+ratio.replace('ratio-','').replace('-','-');
+    const br = v.borderRadius!=null ? v.borderRadius : 0;
+    const outline = v.outline ? `outline:${v.outlineWidth||2}px solid ${v.outlineColor||'var(--leaf)'}` : '';
+    const brStyle = br ? `border-radius:${br}px;overflow:hidden` : '';
+
     if(v.type==='youtube'){
-      const id = v.src.match(/(?:youtu\.be\/|v=|embed\/)([^&?]+)/)?.[1]||v.src;
-      playerHtml = `<iframe class="video-wrap ${ratio}" src="https://www.youtube.com/embed/${id}?rel=0" allowfullscreen loading="lazy" style="height:${v.height||'auto'};${v.borderRadius?`border-radius:${v.borderRadius}px`:''};${v.outline?`outline:${v.outlineWidth||2}px solid ${v.outlineColor||'var(--leaf)'}`:''}" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"></iframe>`;
-    } else if(v.type==='facebook'){
-      const ratioMap={'ratio-16-9':'56.25%','ratio-9-16':'177.78%','ratio-1-1':'100%','ratio-4-3':'75%'};
-      const pad=ratioMap[ratio]||'177.78%';
-      const fit=v.objectFit==='cover'?'cover':'contain';
-      const iframeSrc=v.src.match(/src="([^"]+)"/)?.[1]||'';
-      playerHtml=`<div style="position:relative;width:100%;padding-top:${pad};overflow:hidden;border-radius:${v.borderRadius||12}px;${v.outline?`outline:${v.outlineWidth||2}px solid ${v.outlineColor||'var(--leaf)'}`:''};background:#000"><iframe src="${iframeSrc}" allowfullscreen allow="autoplay;clipboard-write;encrypted-media;picture-in-picture;web-share" referrerpolicy="no-referrer-when-downgrade" scrolling="no" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:${fit==='cover'?'177%':'100%'};height:${fit==='cover'?'177%':'100%'};border:none;min-width:${fit==='cover'?'100%':'unset'};min-height:${fit==='cover'?'100%':'unset'}" loading="lazy"></iframe></div>`;
-    } else if(v.type==='tiktok'){
-      const tid = v.src.match(/video\/(\d+)/)?.[1]||'';
-      playerHtml = `<div class="video-wrap ratio-9-16" style="max-width:325px;margin:0 auto${v.borderRadius?`;border-radius:${v.borderRadius}px`:''}${v.outline?`;outline:${v.outlineWidth||2}px solid ${v.outlineColor||'var(--leaf)'}`:''};overflow:hidden"><blockquote class="tiktok-embed" cite="${v.src}" data-video-id="${tid}" style="max-width:325px;min-width:325px"><section></section></blockquote><script async src="https://www.tiktok.com/embed.js"><\/script></div>`;
-    } else {
-      playerHtml = `<div class="video-wrap ${ratio}" style="${v.borderRadius?`border-radius:${v.borderRadius}px`:''};${v.outline?`outline:${v.outlineWidth||2}px solid ${v.outlineColor||'var(--leaf)'}`:''};overflow:hidden"><video controls preload="metadata" class="fit-${v.objectFit==='cover'?'cover':'contain'}" ${v.autoplay?'autoplay muted':''} ${v.loop?'loop':''}><source src="${v.src}"/></video></div>`;
+      const yid = v.src.match(/(?:youtu\.be\/|[?&]v=|embed\/)([^&?\s]+)/)?.[1]||v.src;
+      return `<div class="vplayer ${ratioClass}" style="${brStyle};${outline}"><iframe src="https://www.youtube.com/embed/${yid}?rel=0&modestbranding=1" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" allowfullscreen loading="lazy"></iframe></div>`;
     }
-    const cardStyle = `${v.maxWidth?`max-width:${v.maxWidth}px;margin-left:auto;margin-right:auto`:''};margin-top:${v.marginTop||0}px;margin-bottom:${v.marginBottom||0}px;padding-left:${v.paddingH||0}px;padding-right:${v.paddingH||0}px`;
-    return `<div class="video-card revealed" style="${cardStyle}">${playerHtml}${v.title||v.desc?`<div class="video-card-body">${v.title?`<div class="video-card-title">${v.title}</div>`:''}${v.desc?`<div class="video-card-desc">${v.desc}</div>`:''}</div>`:''}</div>`;
+    if(v.type==='facebook'){
+      const furl = encodeURIComponent(v.src.replace(/.*href="([^"]+)".*/,'$1')||v.src);
+      return `<div class="vplayer ${ratioClass}" style="${brStyle};${outline}"><iframe src="https://www.facebook.com/plugins/video.php?href=${furl}&show_text=false&width=auto" allowfullscreen allow="autoplay;clipboard-write;encrypted-media;picture-in-picture;web-share" scrolling="no" loading="lazy"></iframe></div>`;
+    }
+    if(v.type==='tiktok'){
+      const tid=v.src.match(/video\/(\d+)/)?.[1]||'';
+      return `<div class="vplayer vr-9-16" style="max-width:325px;margin:0 auto;${brStyle};${outline}"><blockquote class="tiktok-embed" cite="${v.src}" data-video-id="${tid}" style="max-width:325px;min-width:280px"><section></section></blockquote><script async src="https://www.tiktok.com/embed.js"><\/script></div>`;
+    }
+    // Direct video file
+    return `<div class="vplayer ${ratioClass}" style="${brStyle};${outline}"><video class="fit-${v.objectFit==='cover'?'cover':'contain'}" controls preload="metadata" ${v.autoplay?'autoplay muted':''} ${v.loop?'loop':''}><source src="${v.src}"/></video></div>`;
   }
 
-  // Videos for the default Videos Section
-  const sectionVideos = active.filter(v=>!v.position||v.position==='videos-section');
-  if(sectionVideos.length>0){
-    sec.style.display='block';
-    grid.innerHTML = sectionVideos.map(buildCard).join('');
-  } else {
-    sec.style.display='none';
+  // Build full vitem HTML
+  function buildVitem(v){
+    const desktopSpan = Math.max(1, Math.min(12, v.colSpan||6));
+    const shadow = v.shadow!==false;
+    const bg = v.bgColor||'#fff';
+    const mt = v.marginTop||0, mb = v.marginBottom||0;
+    const style = [
+      `grid-column:span ${desktopSpan}`,
+      `--vradius:${v.borderRadius!=null?v.borderRadius:16}px`,
+      mt?`margin-top:${mt}px`:'',
+      mb?`margin-bottom:${mb}px`:'',
+      !shadow?'box-shadow:none;border:none':'',
+      bg&&bg!=='#fff'?`background:${bg}`:'',
+      v.maxWidth?`max-width:${v.maxWidth}px;justify-self:${v.align||'center'}`:'',
+    ].filter(Boolean).join(';');
+    const caption = (v.title||v.desc) ? `<div class="vcaption">${v.title?`<div class="vcaption-title">${v.title}</div>`:''}${v.desc?`<div class="vcaption-desc">${v.desc}</div>`:''}</div>` : '';
+    return `<div class="vitem will-reveal" style="${style}">${buildPlayer(v)}${caption}</div>`;
   }
 
-  // Videos injected into other positions
-  const positions = ['after-ticker','after-banner','after-fresh','after-why','after-reviews','before-footer'];
-  positions.forEach(pos=>{
-    const container = document.querySelector(`[data-video-position="${pos}"]`);
-    if(!container) return;
-    const posVideos = active.filter(v=>v.position===pos);
-    if(posVideos.length>0){
-      container.style.display='block';
-      container.innerHTML = `<div class="videos-grid">${posVideos.map(buildCard).join('')}</div>`;
+  // Group by position and render into each slot
+  const byPosition = {};
+  active.forEach(v=>{
+    const pos = v.position||'videos-section';
+    if(!byPosition[pos]) byPosition[pos]=[];
+    byPosition[pos].push(v);
+  });
+
+  Object.entries(byPosition).forEach(([pos, vids])=>{
+    const slot = ALL_SLOTS[pos];
+    if(!slot) return;
+    const grid = document.getElementById(slot.gridId);
+    if(!grid) return;
+
+    // Compute canvas columns — use max colSpan as hint, min 12
+    const maxSpan = Math.max(...vids.map(v=>v.colSpan||6));
+    const cols = vids.length===1 ? (vids[0].colSpan||12) : 12;
+    const gap = vids[0]?.gap!=null ? vids[0].gap : 16;
+    grid.style.setProperty('--vcols', cols);
+    grid.style.setProperty('--vgap', gap+'px');
+    grid.innerHTML = vids.map(buildVitem).join('');
+
+    if(pos==='videos-section'){
+      const sec=document.getElementById('videoSec');
+      if(sec) sec.style.display='block';
     } else {
-      container.innerHTML='';
-      container.style.display='none';
+      const slotEl=document.getElementById(slot.slotId);
+      if(slotEl){slotEl.style.display='block';slotEl.classList.add('has-videos');}
     }
   });
 
   setTimeout(initScrollReveal,50);
 }
 window.renderVideos = renderVideos;
+
 
 (async()=>{
   try{
