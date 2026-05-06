@@ -289,16 +289,26 @@ header{background:var(--leaf);position:relative;overflow:hidden}
 .lang-opt.active{background:var(--leaf);color:#fff;box-shadow:0 2px 8px rgba(46,125,69,.28)}
 
 /* ══ PWA INSTALL BANNER ══ */
-.pwa-banner{display:none;position:fixed;bottom:80px;left:14px;right:14px;z-index:450;background:var(--bark);color:#fff;border-radius:20px;padding:18px 22px;box-shadow:0 12px 40px rgba(0,0,0,.38);align-items:center;gap:14px;animation:slideUp .4s var(--ease-bounce);}
-@media(min-width:768px){.pwa-banner{left:auto;right:30px;bottom:110px;width:320px}}
+@keyframes pwaSlideUp{from{transform:translateY(110%);opacity:0}to{transform:translateY(0);opacity:1}}
+.pwa-banner{display:none;position:fixed;bottom:0;left:0;right:0;z-index:450;background:linear-gradient(150deg,#1a5c2e 0%,#2e7d45 55%,#1f6b38 100%);color:#fff;border-radius:28px 28px 0 0;padding:26px 22px 36px;box-shadow:0 -6px 48px rgba(46,125,69,.5);flex-direction:column;gap:0;animation:pwaSlideUp .55s var(--ease-bounce);}
+@media(min-width:768px){.pwa-banner{left:auto;right:24px;bottom:24px;width:348px;border-radius:24px;padding:26px 24px 24px;}}
 .pwa-banner.show{display:flex}
-.pwa-banner-icon{font-size:1.8rem;flex-shrink:0}
-.pwa-banner-text{flex:1}
-.pwa-banner-text strong{display:block;font-size:.9rem;margin-bottom:3px}
-.pwa-banner-text span{font-size:.74rem;opacity:.55}
-.pwa-install-btn{background:var(--leaf);color:#fff;border:none;border-radius:11px;padding:9px 18px;font-weight:700;font-size:.78rem;cursor:pointer;white-space:nowrap;transition:background .15s;box-shadow:0 3px 12px rgba(46,125,69,.3);}
-.pwa-install-btn:hover{background:#246038}
-.pwa-dismiss{background:none;border:none;color:rgba(255,255,255,.35);cursor:pointer;font-size:1.1rem;padding:2px 6px;}
+.pwa-banner-top{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.pwa-banner-logo{width:58px;height:58px;border-radius:16px;object-fit:contain;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.22);padding:6px;flex-shrink:0;}
+.pwa-banner-info{flex:1}
+.pwa-banner-info strong{display:block;font-family:var(--font-head);font-weight:700;font-size:1.08rem;margin-bottom:4px;letter-spacing:-.01em}
+.pwa-banner-info span{font-size:.74rem;opacity:.7;line-height:1.5}
+.pwa-banner-close{background:rgba(255,255,255,.12);border:none;color:#fff;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:.85rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;align-self:flex-start;transition:background .15s;}
+.pwa-banner-close:hover{background:rgba(255,255,255,.24)}
+.pwa-banner-divider{height:1px;background:rgba(255,255,255,.12);margin-bottom:16px}
+.pwa-banner-perks{display:flex;flex-direction:column;gap:9px;margin-bottom:22px}
+.pwa-banner-perk{display:flex;align-items:center;gap:10px;font-size:.79rem;opacity:.88;line-height:1.3}
+.pwa-perk-icon{width:28px;height:28px;border-radius:8px;background:rgba(255,255,255,.14);display:flex;align-items:center;justify-content:center;font-size:.82rem;flex-shrink:0}
+.pwa-install-btn{background:var(--mango);color:var(--bark);border:none;border-radius:14px;padding:15px;font-weight:700;font-size:.94rem;cursor:pointer;width:100%;margin-bottom:10px;transition:transform .15s,box-shadow .15s;box-shadow:0 4px 20px rgba(251,191,36,.48);letter-spacing:.01em}
+.pwa-install-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(251,191,36,.58)}
+.pwa-install-btn:active{transform:scale(.97)}
+.pwa-maybe-later{background:none;border:none;color:rgba(255,255,255,.45);cursor:pointer;font-size:.76rem;text-align:center;width:100%;padding:4px;font-family:var(--font-body);transition:color .15s;}
+.pwa-maybe-later:hover{color:rgba(255,255,255,.8)}
 
 /* ══ WHY US ══ */
 #why{background:var(--bark)}
@@ -801,13 +811,22 @@ address,.fhrow,.fbrand p{font-size:var(--fs-footer)}
 
 <!-- ══ PWA INSTALL BANNER ══ -->
 <div class="pwa-banner" id="pwaBanner">
-  <div class="pwa-banner-icon">📲</div>
-  <div class="pwa-banner-text">
-    <strong>Install Gharayesi App</strong>
-    <span>Order faster from your home screen</span>
+  <div class="pwa-banner-top">
+    <img class="pwa-banner-logo" id="pwaBannerLogo" src="https://raw.githubusercontent.com/SaraswotikhelSmartSewa/gharayesi/refs/heads/main/IMG_20260411_223531.png" alt="घरायेसी"/>
+    <div class="pwa-banner-info">
+      <strong>घरायेसी App इन्स्टल गर्नुहोस्</strong>
+      <span>ताजा तरकारी • सरस्वतीखेल<br>घरमै बसी अर्डर गर्नुहोस् 🌿</span>
+    </div>
+    <button class="pwa-banner-close" onclick="dismissPWA()">✕</button>
   </div>
-  <button class="pwa-install-btn" id="pwaInstallBtn">Install</button>
-  <button class="pwa-dismiss" onclick="dismissPWA()">✕</button>
+  <div class="pwa-banner-divider"></div>
+  <div class="pwa-banner-perks">
+    <div class="pwa-banner-perk"><div class="pwa-perk-icon">⚡</div>ब्राउजर बिना सिधै खुल्छ — छिटो र सजिलो</div>
+    <div class="pwa-banner-perk"><div class="pwa-perk-icon">🛵</div>छिटो अर्डर, छिटो डेलिभरी — मात्र रु २५</div>
+    <div class="pwa-banner-perk"><div class="pwa-perk-icon">📴</div>Works offline — even without internet</div>
+  </div>
+  <button class="pwa-install-btn" id="pwaInstallBtn">📲 नि:शुल्क App इन्स्टल गर्नुहोस्</button>
+  <button class="pwa-maybe-later" onclick="dismissPWA()">पछि गर्छु • Maybe later</button>
 </div>
 
 <!-- ══ REVIEW FORM ══ -->
@@ -1407,7 +1426,17 @@ let deferredPrompt = null;
 window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault();
   deferredPrompt = e;
+  setTimeout(() => {
+    const banner = document.getElementById('pwaBanner');
+    if(banner) banner.classList.add('show');
+  }, 3000);
+});
+document.getElementById('pwaInstallBtn')?.addEventListener('click', async () => {
+  if(!deferredPrompt) return;
   deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  document.getElementById('pwaBanner').classList.remove('show');
 });
 window.dismissPWA = function(){
   document.getElementById('pwaBanner').classList.remove('show');
