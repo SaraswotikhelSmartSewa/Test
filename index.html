@@ -288,105 +288,17 @@ header{background:var(--leaf);position:relative;overflow:hidden}
 .lang-opt{padding:5px 13px;border-radius:999px;font-size:.67rem;font-weight:700;transition:all .15s;color:rgba(59,42,26,.42);letter-spacing:.05em}
 .lang-opt.active{background:var(--leaf);color:#fff;box-shadow:0 2px 8px rgba(46,125,69,.28)}
 
-/* ══ PWA INSTALL PROMPT ══ */
-@keyframes pwaSlideUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
-@keyframes pwaFadeIn{from{opacity:0}to{opacity:1}}
-@keyframes pwaShake{0%,100%{transform:rotate(0)}20%{transform:rotate(-8deg)}40%{transform:rotate(8deg)}60%{transform:rotate(-4deg)}80%{transform:rotate(4deg)}}
-
-/* Overlay backdrop */
-.pwa-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:8500;opacity:0;pointer-events:none;transition:opacity .35s;backdrop-filter:blur(6px);}
-.pwa-overlay.open{opacity:1;pointer-events:all;animation:pwaFadeIn .35s ease}
-
-/* Main card */
-.pwa-card{
-  position:fixed;bottom:0;left:0;right:0;z-index:8600;
-  background:#fff;
-  border-radius:28px 28px 0 0;
-  padding:0 0 calc(env(safe-area-inset-bottom) + 20px);
-  box-shadow:0 -8px 48px rgba(0,0,0,.22);
-  transform:translateY(100%);
-  transition:transform .4s cubic-bezier(.34,1.26,.64,1);
-  max-height:92vh;
-  overflow-y:auto;
-}
-@media(min-width:768px){
-  .pwa-card{
-    left:50%;right:auto;bottom:28px;
-    transform:translateX(-50%) translateY(60px);
-    width:420px;
-    border-radius:28px;
-    transition:transform .4s cubic-bezier(.34,1.26,.64,1),opacity .35s;
-    opacity:0;
-  }
-}
-.pwa-overlay.open .pwa-card{
-  transform:translateY(0);
-}
-@media(min-width:768px){
-  .pwa-overlay.open .pwa-card{
-    transform:translateX(-50%) translateY(0);
-    opacity:1;
-  }
-}
-
-/* Card handle bar */
-.pwa-handle{width:44px;height:5px;background:rgba(0,0,0,.1);border-radius:99px;margin:14px auto 0;}
-
-/* Card content */
-.pwa-inner{padding:24px 28px 8px;}
-
-/* App identity row */
-.pwa-app-row{display:flex;align-items:center;gap:16px;margin-bottom:22px;}
-.pwa-app-icon{width:64px;height:64px;border-radius:18px;object-fit:contain;background:var(--leaf);flex-shrink:0;box-shadow:0 6px 20px rgba(46,125,69,.35);}
-.pwa-app-info{}
-.pwa-app-name{font-family:var(--font-head);font-weight:900;font-size:1.15rem;color:var(--bark);line-height:1.15}
-.pwa-app-name span{color:var(--leaf)}
-.pwa-app-sub{font-size:.78rem;color:rgba(59,42,26,.45);margin-top:3px}
-
-/* Benefits list */
-.pwa-benefits{display:flex;flex-direction:column;gap:10px;margin-bottom:24px;}
-.pwa-benefit{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:rgba(46,125,69,.05);border-radius:14px;border:1px solid rgba(46,125,69,.1);}
-.pwa-benefit-icon{font-size:1.3rem;flex-shrink:0;line-height:1;margin-top:1px}
-.pwa-benefit-text{}
-.pwa-benefit-title{font-weight:700;font-size:.86rem;color:var(--bark);line-height:1.3}
-.pwa-benefit-desc{font-size:.76rem;color:rgba(59,42,26,.52);margin-top:2px;line-height:1.5}
-
-/* Install button */
-.pwa-install-btn{
-  width:100%;background:linear-gradient(135deg,var(--leaf),#246038);
-  color:#fff;border:none;border-radius:16px;
-  padding:16px 20px;font-weight:700;font-size:1rem;
-  cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px;
-  box-shadow:0 6px 20px rgba(46,125,69,.4);
-  transition:transform .15s,box-shadow .15s;
-  letter-spacing:.01em;
-  margin-bottom:10px;
-}
-.pwa-install-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(46,125,69,.5)}
-.pwa-install-btn:active{transform:scale(.97)}
-.pwa-install-btn svg{width:20px;height:20px;fill:#fff}
-.pwa-install-icon{font-size:1.2rem;animation:pwaShake 2s ease 1s infinite}
-
-/* Later / dismiss */
-.pwa-later{width:100%;background:none;border:none;color:rgba(59,42,26,.4);font-size:.84rem;padding:10px;cursor:pointer;text-align:center;transition:color .15s;}
-.pwa-later:hover{color:rgba(59,42,26,.7)}
-
-/* iOS instructions panel */
-.pwa-ios-steps{display:none;margin-bottom:12px;}
-.pwa-ios-steps.show{display:block}
-.pwa-ios-title{font-weight:700;font-size:.88rem;color:var(--bark);margin-bottom:12px;text-align:center;}
-.pwa-ios-step{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid rgba(59,42,26,.07);}
-.pwa-ios-step:last-child{border-bottom:none}
-.pwa-ios-num{width:24px;height:24px;border-radius:50%;background:var(--leaf);color:#fff;font-size:.7rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
-.pwa-ios-text{font-size:.82rem;color:var(--bark);line-height:1.55}
-.pwa-ios-text strong{color:var(--leaf)}
-.pwa-ios-arrow{display:inline-block;margin:0 4px;font-size:1rem}
-
-/* Desktop tip */
-.pwa-desktop-tip{background:rgba(30,159,212,.07);border:1px solid rgba(30,159,212,.18);border-radius:14px;padding:14px;margin-bottom:12px;display:none;}
-.pwa-desktop-tip.show{display:block}
-.pwa-desktop-tip-title{font-weight:700;font-size:.86rem;color:var(--sky);margin-bottom:6px}
-.pwa-desktop-tip p{font-size:.8rem;color:rgba(59,42,26,.65);line-height:1.65}
+/* ══ PWA INSTALL BANNER ══ */
+.pwa-banner{display:none;position:fixed;bottom:80px;left:14px;right:14px;z-index:450;background:var(--bark);color:#fff;border-radius:20px;padding:18px 22px;box-shadow:0 12px 40px rgba(0,0,0,.38);align-items:center;gap:14px;animation:slideUp .4s var(--ease-bounce);}
+@media(min-width:768px){.pwa-banner{left:auto;right:30px;bottom:110px;width:320px}}
+.pwa-banner.show{display:flex}
+.pwa-banner-icon{font-size:1.8rem;flex-shrink:0}
+.pwa-banner-text{flex:1}
+.pwa-banner-text strong{display:block;font-size:.9rem;margin-bottom:3px}
+.pwa-banner-text span{font-size:.74rem;opacity:.55}
+.pwa-install-btn{background:var(--leaf);color:#fff;border:none;border-radius:11px;padding:9px 18px;font-weight:700;font-size:.78rem;cursor:pointer;white-space:nowrap;transition:background .15s;box-shadow:0 3px 12px rgba(46,125,69,.3);}
+.pwa-install-btn:hover{background:#246038}
+.pwa-dismiss{background:none;border:none;color:rgba(255,255,255,.35);cursor:pointer;font-size:1.1rem;padding:2px 6px;}
 
 /* ══ WHY US ══ */
 #why{background:var(--bark)}
@@ -887,86 +799,15 @@ address,.fhrow,.fbrand p{font-size:var(--fs-footer)}
   </div>
 </footer>
 
-<!-- ══ PWA INSTALL PROMPT ══ -->
-<div class="pwa-overlay" id="pwaOverlay" onclick="handlePwaOverlayClick(event)">
-  <div class="pwa-card" id="pwaCard">
-    <div class="pwa-handle"></div>
-    <div class="pwa-inner">
-
-      <!-- App identity -->
-      <div class="pwa-app-row">
-        <img class="pwa-app-icon" id="pwaAppIcon" src="" alt="App Icon"/>
-        <div class="pwa-app-info">
-          <div class="pwa-app-name">घरायेसी<span> App</span></div>
-          <div class="pwa-app-sub">सरस्वतीखेल स्मार्ट सेवा • Free to install</div>
-        </div>
-      </div>
-
-      <!-- Benefits -->
-      <div class="pwa-benefits">
-        <div class="pwa-benefit">
-          <div class="pwa-benefit-icon">⚡</div>
-          <div class="pwa-benefit-text">
-            <div class="pwa-benefit-title">छिटो खुल्छ • Opens instantly</div>
-            <div class="pwa-benefit-desc">No browser needed — opens like any other app on your phone</div>
-          </div>
-        </div>
-        <div class="pwa-benefit">
-          <div class="pwa-benefit-icon">📴</div>
-          <div class="pwa-benefit-text">
-            <div class="pwa-benefit-title">Offline पनि काम गर्छ • Works offline</div>
-            <div class="pwa-benefit-desc">Browse products and menu even without internet</div>
-          </div>
-        </div>
-        <div class="pwa-benefit">
-          <div class="pwa-benefit-icon">🛒</div>
-          <div class="pwa-benefit-text">
-            <div class="pwa-benefit-title">सजिलो अर्डर • Easy ordering</div>
-            <div class="pwa-benefit-desc">One tap from your home screen to order fresh vegetables</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- iOS step-by-step -->
-      <div class="pwa-ios-steps" id="pwaIosSteps">
-        <div class="pwa-ios-title">📱 iPhone मा Install गर्न • How to install on iPhone</div>
-        <div class="pwa-ios-step">
-          <div class="pwa-ios-num">1</div>
-          <div class="pwa-ios-text">तल <strong>Share button</strong> थिच्नुहोस् <strong>⬆</strong> (Safari को तल्लो बारमा)</div>
-        </div>
-        <div class="pwa-ios-step">
-          <div class="pwa-ios-num">2</div>
-          <div class="pwa-ios-text">Scroll गर्नुहोस् र <strong>"Add to Home Screen"</strong> छान्नुहोस् <strong>＋</strong></div>
-        </div>
-        <div class="pwa-ios-step">
-          <div class="pwa-ios-num">3</div>
-          <div class="pwa-ios-text">माथि <strong>"Add"</strong> थिच्नुहोस् — Done! 🎉</div>
-        </div>
-      </div>
-
-      <!-- Desktop tip -->
-      <div class="pwa-desktop-tip" id="pwaDesktopTip">
-        <div class="pwa-desktop-tip-title">💻 Desktop मा Install गर्न</div>
-        <p>Address bar को दायाँतिर <strong>⊕ Install</strong> icon देखिन्छ — त्यो थिच्नुहोस्। अथवा browser menu → <strong>"Install Gharayesi App"</strong> छान्नुहोस्।</p>
-      </div>
-
-      <!-- CTA button — Android/Desktop -->
-      <button class="pwa-install-btn" id="pwaInstallBtn" style="display:none">
-        <span class="pwa-install-icon">📲</span>
-        Install गर्नुहोस् — It's Free!
-      </button>
-
-      <!-- iOS open in Safari hint -->
-      <button class="pwa-install-btn" id="pwaOpenSafariBtn" style="display:none;background:linear-gradient(135deg,#007aff,#0056cc)">
-        <span>🧭</span>
-        Safari मा खोल्नुहोस् • Open in Safari
-      </button>
-
-      <button class="pwa-later" onclick="dismissPWA()">
-        पछि गर्छु • Maybe later
-      </button>
-    </div>
+<!-- ══ PWA INSTALL BANNER ══ -->
+<div class="pwa-banner" id="pwaBanner">
+  <div class="pwa-banner-icon">📲</div>
+  <div class="pwa-banner-text">
+    <strong>Install Gharayesi App</strong>
+    <span>Order faster from your home screen</span>
   </div>
+  <button class="pwa-install-btn" id="pwaInstallBtn">Install</button>
+  <button class="pwa-dismiss" onclick="dismissPWA()">✕</button>
 </div>
 
 <!-- ══ REVIEW FORM ══ -->
@@ -1561,109 +1402,24 @@ window.toggleLang = function(){
   if(wt) wt.textContent = LANG.whyTitle[currentLang];
 }
 
-/* ══ PWA INSTALL PROMPT — Smart multi-platform ══ */
+/* ══ PWA ══ */
 let deferredPrompt = null;
-let pwaShown = false;
-
-function detectPlatform(){
-  const ua = navigator.userAgent;
-  const isIOS = /iphone|ipad|ipod/i.test(ua);
-  const isSafari = /safari/i.test(ua) && !/chrome|crios|fxios/i.test(ua);
-  const isAndroid = /android/i.test(ua);
-  const isChrome = /chrome|crios/i.test(ua) && !/edge/i.test(ua);
-  const isDesktop = !/mobi|android|iphone|ipad|ipod/i.test(ua);
-  const isInStandalone = window.matchMedia('(display-mode:standalone)').matches || window.navigator.standalone;
-  return {isIOS,isSafari,isAndroid,isChrome,isDesktop,isInStandalone};
-}
-
-function openPWAPrompt(){
-  if(pwaShown) return;
-  const already = localStorage.getItem('pwaInstalled')||localStorage.getItem('pwaDismissed');
-  if(already) return;
-  const p = detectPlatform();
-  if(p.isInStandalone) return; // Already installed
-
-  pwaShown = true;
-  const overlay = document.getElementById('pwaOverlay');
-  const installBtn = document.getElementById('pwaInstallBtn');
-  const safariBtn = document.getElementById('pwaOpenSafariBtn');
-  const iosSteps = document.getElementById('pwaIosSteps');
-  const desktopTip = document.getElementById('pwaDesktopTip');
-  const icon = document.getElementById('pwaAppIcon');
-
-  // Set app icon from config
-  if(siteConfig?.meta?.logoUrl && icon) icon.src = siteConfig.meta.logoUrl;
-
-  if(p.isIOS && !p.isSafari){
-    // iOS but not Safari (Chrome/Firefox on iOS) — can't install, show open in Safari tip
-    safariBtn.style.display = 'flex';
-    safariBtn.onclick = ()=>{ window.location.href = window.location.href; };
-    iosSteps.classList.add('show');
-  } else if(p.isIOS && p.isSafari){
-    // iOS Safari — show manual steps
-    iosSteps.classList.add('show');
-  } else if(deferredPrompt){
-    // Android Chrome or Desktop Chrome — native prompt available
-    installBtn.style.display = 'flex';
-  } else if(p.isDesktop){
-    // Desktop without prompt yet — show tip
-    desktopTip.classList.add('show');
-  } else {
-    // Android but prompt not fired yet — show tip and wait
-    installBtn.style.display = 'flex';
-    installBtn.textContent = '📲 Add to Home Screen';
-  }
-
-  overlay.classList.add('open');
-}
-
-window.handlePwaOverlayClick = function(e){
-  // Close if clicking the backdrop (not the card)
-  if(e.target === document.getElementById('pwaOverlay')) dismissPWA();
-}
-
-window.dismissPWA = function(){
-  document.getElementById('pwaOverlay').classList.remove('open');
-  localStorage.setItem('pwaDismissed', Date.now());
-}
-
-// Capture the install prompt (Android/Desktop Chrome)
 window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault();
   deferredPrompt = e;
-  // If prompt is already shown, update the button
-  const btn = document.getElementById('pwaInstallBtn');
-  if(btn) btn.style.display = 'flex';
+  const banner = document.getElementById('pwaBanner');
+  if(banner) banner.classList.add('show');
 });
-
-// Handle install button click
 document.getElementById('pwaInstallBtn')?.addEventListener('click', async () => {
-  if(deferredPrompt){
-    deferredPrompt.prompt();
-    const {outcome} = await deferredPrompt.userChoice;
-    deferredPrompt = null;
-    if(outcome === 'accepted'){
-      localStorage.setItem('pwaInstalled','1');
-      dismissPWA();
-    }
-  }
+  if(!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  document.getElementById('pwaBanner').classList.remove('show');
 });
-
-// App installed event
-window.addEventListener('appinstalled', () => {
-  localStorage.setItem('pwaInstalled','1');
-  dismissPWA();
-});
-
-// Show the prompt after 4 seconds — enough time to see the site first
-setTimeout(()=>{
-  // Only show if not dismissed in last 3 days
-  const dismissed = parseInt(localStorage.getItem('pwaDismissed')||'0');
-  const threeDays = 3*24*60*60*1000;
-  if(!localStorage.getItem('pwaInstalled') && (Date.now()-dismissed > threeDays)){
-    openPWAPrompt();
-  }
-}, 4000);
+window.dismissPWA = function(){
+  document.getElementById('pwaBanner').classList.remove('show');
+}
 
 /* ══ SPLASH AD ══ */
 let splashInterval = null;
