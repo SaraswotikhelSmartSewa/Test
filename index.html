@@ -1407,15 +1407,7 @@ let deferredPrompt = null;
 window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault();
   deferredPrompt = e;
-  const banner = document.getElementById('pwaBanner');
-  if(banner) banner.classList.add('show');
-});
-document.getElementById('pwaInstallBtn')?.addEventListener('click', async () => {
-  if(!deferredPrompt) return;
   deferredPrompt.prompt();
-  const { outcome } = await deferredPrompt.userChoice;
-  deferredPrompt = null;
-  document.getElementById('pwaBanner').classList.remove('show');
 });
 window.dismissPWA = function(){
   document.getElementById('pwaBanner').classList.remove('show');
