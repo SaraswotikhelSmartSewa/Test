@@ -1,24 +1,23 @@
 /**
  * ═══════════════════════════════════════════════════
- *  घरायेसी Smart Chatbot
+ *  घरायेसी Smart Chatbot — Powered by Groq (Llama 3)
  *  Auto-syncs with site-config.json on every session
  *  Responds in Nepali & English based on visitor input
  * ═══════════════════════════════════════════════════
  *
  *  SETUP:
- *  1. Get a free Gemini API key → https://aistudio.google.com/
- *  2. Replace YOUR_GEMINI_API_KEY_HERE below with your key
- *  3. Restrict your key to your domain in Google Cloud Console
- *  4. Add this line before </body> in your index.html:
+ *  1. Get a free Groq API key → https://console.groq.com/
+ *  2. Replace YOUR_GROQ_API_KEY_HERE below with your key
+ *  3. Add this line before </body> in your index.html:
  *       <script src="chatbot.js"></script>
  */
 
 (function () {
 
-  /* ── YOUR GEMINI API KEY ── */
-  const GEMINI_API_KEY = 'AIzaSyAvaREJVhNPObkzrtRO49_j59FRioNcEz4';
-  const GEMINI_MODEL   = 'gemini-pro';
-  const CONFIG_URL     = 'site-config.json';
+  /* ── YOUR GROQ API KEY ── */
+  const GROQ_API_KEY = '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';
+  const GROQ_MODEL   = 'llama3-8b-8192';
+  const CONFIG_URL   = 'site-config.json';
 
   /* ── CONVERSATION MEMORY ── */
   let conversationHistory = [];
@@ -511,29 +510,32 @@ IMPORTANT RULES:
   }
 
   /* ══════════════════════════════════════
-     SEND MESSAGE TO GEMINI
+     SEND MESSAGE TO GROQ
   ══════════════════════════════════════ */
   async function sendToGemini(userText) {
-    conversationHistory.push({ role: 'user', parts: [{ text: userText }] });
+    conversationHistory.push({ role: 'user', content: userText });
+
+    const messages = [
+      { role: 'system', content: systemPrompt },
+      ...conversationHistory
+    ];
 
     const body = {
-      system_instruction: { parts: [{ text: systemPrompt }] },
-      contents: conversationHistory,
-      generationConfig: {
-        temperature: 0.8,
-        maxOutputTokens: 512,
-        topP: 0.9,
-      },
-      safetySettings: [
-        { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
-        { category: 'HARM_CATEGORY_HATE_SPEECH', threshold: 'BLOCK_MEDIUM_AND_ABOVE' },
-      ]
+      model: GROQ_MODEL,
+      messages: messages,
+      temperature: 0.8,
+      max_tokens: 512,
+      top_p: 0.9,
     };
 
-    const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${GEMINI_API_KEY}`,
-      { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }
-    );
+    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${GROQ_API_KEY}`
+      },
+      body: JSON.stringify(body)
+    });
 
     if (!res.ok) {
       const err = await res.json();
@@ -541,8 +543,8 @@ IMPORTANT RULES:
     }
 
     const data = await res.json();
-    const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || 'माफ गर्नुस्, अहिले जवाफ दिन सकिएन। Sorry, unable to respond right now.';
-    conversationHistory.push({ role: 'model', parts: [{ text: reply }] });
+    const reply = data?.choices?.[0]?.message?.content || 'माफ गर्नुस्, अहिले जवाफ दिन सकिएन। Sorry, unable to respond right now.';
+    conversationHistory.push({ role: 'assistant', content: reply });
     return reply;
   }
 
