@@ -1,23 +1,25 @@
 /**
  * ═══════════════════════════════════════════════════
- *  घरायेसी Smart Chatbot — Powered by Groq (Llama 3)
+ *  घरायेसी Smart Chatbot — Powered by Groq via Cloudflare
+ *  API key is hidden inside Cloudflare Worker (secure)
  *  Auto-syncs with site-config.json on every session
  *  Responds in Nepali & English based on visitor input
  * ═══════════════════════════════════════════════════
  *
  *  SETUP:
- *  1. Get a free Groq API key → https://console.groq.com/
- *  2. Replace YOUR_GROQ_API_KEY_HERE below with your key
- *  3. Add this line before </body> in your index.html:
+ *  1. Deploy worker.js to Cloudflare Workers
+ *  2. Add GROQ_API_KEY and AUTH_TOKEN secrets in Cloudflare
+ *  3. Replace WORKER_URL and AUTH_TOKEN below with your values
+ *  4. Add this line before </body> in your index.html:
  *       <script src="chatbot.js"></script>
  */
 
 (function () {
 
-  /* ── YOUR GROQ API KEY ── */
-  const GROQ_API_KEY = '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';
-  const GROQ_MODEL   = 'llama3-8b-8192';
-  const CONFIG_URL   = 'site-config.json';
+  /* ── CLOUDFLARE WORKER CONFIG ── */
+  const WORKER_URL = 'long-tree-136b-gharayesichatbot.smartsaraswotikhel.workers.dev'; // e.g. https://gharayesi-chat.yourname.workers.dev
+  const AUTH_TOKEN = 'gharayesi2083'; // must match AUTH_TOKEN secret in Cloudflare
+  const CONFIG_URL = 'site-config.json';
 
   /* ── CONVERSATION MEMORY ── */
   let conversationHistory = [];
@@ -510,7 +512,7 @@ IMPORTANT RULES:
   }
 
   /* ══════════════════════════════════════
-     SEND MESSAGE TO GROQ
+     SEND MESSAGE VIA CLOUDFLARE WORKER
   ══════════════════════════════════════ */
   async function sendToGemini(userText) {
     conversationHistory.push({ role: 'user', content: userText });
@@ -520,26 +522,18 @@ IMPORTANT RULES:
       ...conversationHistory
     ];
 
-    const body = {
-      model: GROQ_MODEL,
-      messages: messages,
-      temperature: 0.8,
-      max_tokens: 512,
-      top_p: 0.9,
-    };
-
-    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    const res = await fetch(WORKER_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${GROQ_API_KEY}`
+        'X-Auth-Token': AUTH_TOKEN
       },
-      body: JSON.stringify(body)
+      body: JSON.stringify({ messages })
     });
 
     if (!res.ok) {
       const err = await res.json();
-      throw new Error(err?.error?.message || 'API error');
+      throw new Error(err?.error || 'Worker error');
     }
 
     const data = await res.json();
