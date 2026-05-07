@@ -17,8 +17,8 @@
 (function () {
 
   /* ── CLOUDFLARE WORKER CONFIG ── */
-  const WORKER_URL = 'long-tree-136b-gharayesichatbot.smartsaraswotikhel.workers.dev'; // e.g. https://gharayesi-chat.yourname.workers.dev
-  const AUTH_TOKEN = 'gharayesi2083'; // must match AUTH_TOKEN secret in Cloudflare
+  const WORKER_URL = 'https://long-tree-136b-gharayesichatbot.smartsaraswotikhel.workers.dev';
+  const AUTH_TOKEN = 'gharayesi2083';
   const CONFIG_URL = 'site-config.json';
 
   /* ── CONVERSATION MEMORY ── */
