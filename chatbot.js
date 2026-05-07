@@ -17,7 +17,7 @@
 
   /* ── YOUR GEMINI API KEY ── */
   const GEMINI_API_KEY = 'AIzaSyAvaREJVhNPObkzrtRO49_j59FRioNcEz4';
-  const GEMINI_MODEL   = 'gemini-2.0-flash';
+  const GEMINI_MODEL   = 'gemini-2.0-flash-lite';
   const CONFIG_URL     = 'site-config.json';
 
   /* ── CONVERSATION MEMORY ── */
