@@ -166,37 +166,15 @@
   document.body.appendChild(panel);
 
   const LANG_CONTENT = {
-    NP: {
-      welcomeText: 'के मद्दत गर्न सक्छु? मूल्य, डेलिभरी, वा अर्डर — जे सोध्नुस् पनि! 😊',
-      placeholder: 'सन्देश लेख्नुस्…',
-      status: 'Online • सेवामा तत्पर',
-      chips: [
-        {label:'🥬 आजको मूल्य', msg:'आजको तरकारीको मूल्य के छ?'},
-        {label:'🛵 डेलिभरी', msg:'डेलिभरी कति पर्छ र कहाँसम्म हुन्छ?'},
-        {label:'📦 अर्डर कसरी?', msg:'कसरी अर्डर गर्ने?'},
-        {label:'🕐 समय', msg:'पसल कति बजे खुल्छ र बन्द हुन्छ?'},
-      ]
-    },
     EN: {
-      welcomeText: 'How can I help you today? Ask me about prices, delivery, ordering — anything! 😊',
+      welcomeText: "Ask me about today's prices, delivery, or how to order — I'm here to help!",
       placeholder: 'Type your message…',
       status: 'Online • Ready to help',
       chips: [
-        {label:"🥬 Today's prices", msg:"What are today's vegetable prices?"},
+        {label:"🥬 Today's prices", msg:"What are today's fresh vegetable prices?"},
         {label:'🛵 Delivery', msg:'How much is delivery and where do you deliver?'},
         {label:'📦 How to order', msg:'How do I place an order?'},
         {label:'🕐 Opening hours', msg:'What are your opening hours?'},
-      ]
-    },
-    AUTO: {
-      welcomeText: 'नमस्ते! Hello! Ask me anything about घरायेसी 😊',
-      placeholder: 'सन्देश लेख्नुस् • Type your message…',
-      status: 'Online • सेवामा तत्पर',
-      chips: [
-        {label:'🥬 आजको मूल्य', msg:'आजको तरकारीको मूल्य के छ?'},
-        {label:"📦 How to order", msg:'How do I place an order?'},
-        {label:'🛵 डेलिभरी', msg:'डेलिभरी कति पर्छ?'},
-        {label:'🕐 Timings', msg:'What are your opening hours?'},
       ]
     }
   };
@@ -205,25 +183,19 @@
     selectedLang = lang;
     document.getElementById('cb-lang-screen').style.display = 'none';
     document.getElementById('cb-chat-area').classList.add('active');
-    const c = LANG_CONTENT[lang];
+    const c = LANG_CONTENT['EN'];
     document.getElementById('cb-input').placeholder = c.placeholder;
     document.getElementById('cb-status-text').textContent = c.status;
     document.getElementById('cb-welcome-text').textContent = c.welcomeText;
     document.getElementById('cb-chips').innerHTML = c.chips.map(ch =>
       `<span class="cb-chip" onclick="cbAsk('${ch.msg}')">${ch.label}</span>`
     ).join('');
-    if (!systemPrompt) initChat(lang);
-    else { document.getElementById('cb-send').disabled = false; sendWelcomeMessage(lang); }
+    if (!systemPrompt) initChat('EN');
+    else { document.getElementById('cb-send').disabled = false; sendWelcomeMessage('EN'); }
   };
 
   function sendWelcomeMessage(lang) {
-    if (lang === 'NP') {
-      addMessage('bot', `नमस्ते हजुर 🌿\n• घरायेसीमा स्वागत छ\n• ताजा तरकारी, मूल्य, डेलिभरी — जे सोध्नुस् पनि\n\nके सहयोग गर्न सक्छु हजुरलाई?`);
-    } else if (lang === 'EN') {
-      addMessage('bot', `Welcome to Gharayesi 🌿\n\nIt's a pleasure to have you here. Whether you'd like to know today's fresh prices, learn about our delivery, or go ahead and place an order — I'm here to help. What can I assist you with today?`);
-    } else {
-      addMessage('bot', `नमस्ते! Welcome to Gharayesi 🌿\n\nPlease feel free to ask in Nepali or English — whichever you prefer. How may I assist you today?`);
-    }
+    addMessage('bot', `Namaste! Welcome to Gharayesi 🌿\n\nDai/Didi, it's lovely to have you here. Whether you want to check today's fresh prices, know about our delivery, or just place a quick order — I'm right here. Ke garnuparcha hajur?`);
   }
 
   async function fetchSiteConfig() {
@@ -235,6 +207,7 @@
   }
 
   function buildSystemPrompt(cfg, lang) {
+    lang = 'EN'; // Always English + Romanized Nepali mode
     const langRule = lang === 'NP'
       ? 'CRITICAL: Always respond in natural, flowing Nepali (Devanagari). Only use English for product names where necessary.'
       : lang === 'EN'
@@ -383,7 +356,11 @@ CONVERSATION GUIDELINES:
 
   function openPanel() {
     isOpen = true; panel.classList.add('open'); fab.classList.remove('has-notif');
-    if (selectedLang) document.getElementById('cb-input').focus();
+    if (!selectedLang) {
+      cbSelectLang('EN');
+    } else {
+      document.getElementById('cb-input').focus();
+    }
   }
   function closePanel() { isOpen = false; panel.classList.remove('open'); }
 
