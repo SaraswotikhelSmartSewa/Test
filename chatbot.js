@@ -218,11 +218,11 @@
 
   function sendWelcomeMessage(lang) {
     if (lang === 'NP') {
-      addMessage('bot', `नमस्ते, हजुरलाई स्वागत छ घरायेसीमा 🌿\n\nहजुरको लागि आज के सहयोग गर्न सक्छु? आजको ताजा तरकारीको मूल्य थाहा पाउनु छ, डेलिभरीबारे बुझ्नु छ, वा अर्डर गर्नु छ भने — निःसङ्कोच सोध्नुस्।`);
+      addMessage('bot', `नमस्ते हजुर 🌿\n• घरायेसीमा स्वागत छ\n• ताजा तरकारी, मूल्य, डेलिभरी — जे सोध्नुस् पनि\n\nके सहयोग गर्न सक्छु हजुरलाई?`);
     } else if (lang === 'EN') {
-      addMessage('bot', `Welcome to Gharayesi 🌿\n\nIt's a pleasure to assist you. Whether you'd like to know today's fresh prices, learn about our delivery, or place an order — please feel free to ask. I'm here to help.`);
+      addMessage('bot', `Welcome to Gharayesi 🌿\n\nIt's a pleasure to have you here. Whether you'd like to know today's fresh prices, learn about our delivery, or go ahead and place an order — I'm here to help. What can I assist you with today?`);
     } else {
-      addMessage('bot', `नमस्ते! Welcome to Gharayesi 🌿\n\nहजुर नेपाली वा English — जुन भाषामा सहज लाग्छ, त्यसैमा सोध्नुस्। I'm happy to assist in either language.`);
+      addMessage('bot', `नमस्ते! Welcome to Gharayesi 🌿\n\nPlease feel free to ask in Nepali or English — whichever you prefer. How may I assist you today?`);
     }
   }
 
