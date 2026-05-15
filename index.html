@@ -7,6 +7,24 @@
 <meta name="description" content=""/>
 <link rel="manifest" href="manifest.json"/>
 <meta name="theme-color" content="#2e7d45"/>
+<script>
+  // Register service worker as early as possible
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.register('/Test/sw.js', { scope: '/Test/' })
+      .then(reg => {
+        reg.addEventListener('updatefound', () => {
+          const newWorker = reg.installing;
+          newWorker.addEventListener('statechange', () => {
+            if(newWorker.state === 'installed' && navigator.serviceWorker.controller){
+              newWorker.postMessage('skipWaiting');
+              window.location.reload();
+            }
+          });
+        });
+      })
+      .catch(err => console.warn('SW registration failed:', err));
+  }
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <style>   
@@ -1423,14 +1441,34 @@ window.toggleLang = function(){
 
 /* ══ PWA ══ */
 let deferredPrompt = null;
+const PWA_DISMISS_KEY = 'pwa_dismissed_until';
+
+function shouldShowPWA(){
+  const until = localStorage.getItem(PWA_DISMISS_KEY);
+  if(!until) return true;
+  return Date.now() > parseInt(until);
+}
+
 window.addEventListener('beforeinstallprompt', e => {
   e.preventDefault();
   deferredPrompt = e;
+  if(!shouldShowPWA()) return;
   setTimeout(() => {
     const banner = document.getElementById('pwaBanner');
     if(banner) banner.classList.add('show');
   }, 3000);
 });
+
+// Also check on page load in case prompt was already fired
+window.addEventListener('load', () => {
+  if(deferredPrompt && shouldShowPWA()){
+    setTimeout(() => {
+      const banner = document.getElementById('pwaBanner');
+      if(banner) banner.classList.add('show');
+    }, 3000);
+  }
+});
+
 document.getElementById('pwaInstallBtn')?.addEventListener('click', async () => {
   if(!deferredPrompt) return;
   deferredPrompt.prompt();
@@ -1438,8 +1476,11 @@ document.getElementById('pwaInstallBtn')?.addEventListener('click', async () => 
   deferredPrompt = null;
   document.getElementById('pwaBanner').classList.remove('show');
 });
+
 window.dismissPWA = function(){
   document.getElementById('pwaBanner').classList.remove('show');
+  // Snooze the prompt for 3 days
+  localStorage.setItem(PWA_DISMISS_KEY, Date.now() + (3 * 24 * 60 * 60 * 1000));
 }
 
 /* ══ SPLASH AD ══ */
@@ -1657,20 +1698,72 @@ window.renderVideos = renderVideos;
 
 
 (async()=>{
+  const FB_URL = 'https://gharayesi-76c2f-default-rtdb.asia-southeast1.firebasedatabase.app/gharayesi_website.json';
+
+  async function fetchLiveProducts(){
+    try{
+      const res = await fetch(FB_URL+'?v='+Date.now());
+      if(!res.ok) return null;
+      const data = await res.json();
+      return (data && data.categories) ? data : null;
+    } catch(e){ return null; }
+  }
+
   try{
     const ctrl=new AbortController();
     setTimeout(()=>ctrl.abort(),4000);
     const res=await fetch('site-config.json?v='+Date.now(),{signal:ctrl.signal});
     if(!res.ok) throw new Error('fetch failed');
     const fresh=await res.json();
+
+    // Overlay live product data from Firebase (wholesale prices never included)
+    const live = await fetchLiveProducts();
+    if(live){
+      if(live.categories && live.categories.length) fresh.categories = live.categories;
+      if(live.meta){
+        if(live.meta.shopName)    fresh.meta.shopName  = live.meta.shopName;
+        if(live.meta.shopAddress) fresh.meta.address   = live.meta.shopAddress;
+        if(live.meta.shopPhone)   fresh.meta.phone     = live.meta.shopPhone;
+      }
+    }
+
     render(fresh);
   } catch(e){
-    // fallback: show error message if config can't load
     document.body.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:sans-serif;color:#3b2a1a;text-align:center;padding:20px"><div><div style="font-size:2rem;margin-bottom:12px">⚠️</div><p>Could not load site config. Please check that <strong>site-config.json</strong> is uploaded correctly.</p></div></div>';
   }
 })();
-if('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+<script>
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.ready.then(reg => {
+      reg.addEventListener('updatefound', () => {
+        const newWorker = reg.installing;
+        newWorker.addEventListener('statechange', () => {
+          if(newWorker.state === 'installed' && navigator.serviceWorker.controller){
+            newWorker.postMessage('skipWaiting');
+            window.location.reload();
+          }
+        });
+      });
+    });
+  }
+</script>
 </script>
 <script src="chatbot.js"></script>
+
+<script>
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.ready.then(reg => {
+      reg.addEventListener('updatefound', () => {
+        const newWorker = reg.installing;
+        newWorker.addEventListener('statechange', () => {
+          if(newWorker.state === 'installed' && navigator.serviceWorker.controller){
+            newWorker.postMessage('skipWaiting');
+            window.location.reload();
+          }
+        });
+      });
+    });
+  }
+</script>
 </body>
 </html>
